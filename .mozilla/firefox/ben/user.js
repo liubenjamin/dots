@@ -11,5 +11,6 @@ user_pref("svg.context-properties.content.enabled", true); 				// default is fal
 //user_pref("security.insecure_connection_text.enabled", true);
 
 // Ben's Settings
-user_pref("layers.acceleration.force-enabled, true);
-
+user_pref("layers.acceleration.force-enabled", true);
+user_pref("browser.tabs.warnOnCloseOtherTabs", false);
+user_pref("ui.key.menuAccessKeyFocuses", false);
