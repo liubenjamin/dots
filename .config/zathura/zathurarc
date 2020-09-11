@@ -1,0 +1,9 @@
+set adjust-open height
+set default-bg "#FFFFFF00"
+set statusbar-bg "#282C34"
+set font "Cozette 10"
+set recolor-keephue "true"
+
+map [normal]     f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
+map i recolor
