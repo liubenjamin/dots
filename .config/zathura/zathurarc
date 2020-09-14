@@ -3,6 +3,7 @@ set default-bg "#FFFFFF00"
 set statusbar-bg "#282C34"
 set font "Cozette 10"
 set recolor-keephue "true"
+set selection-clipboard clipboard
 
 map [normal]     f toggle_fullscreen
 map [fullscreen] f toggle_fullscreen
