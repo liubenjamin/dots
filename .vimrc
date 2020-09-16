@@ -28,6 +28,12 @@ noremap Y y$
 noremap B ^
 noremap E $
 
+" easier split navigation
+nnoremap <C-H> <C-W><C-H>
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+
 " automatically deletes all tralling whitespace on save
 autocmd BufWritePre * %s/\s\+$//e
 
