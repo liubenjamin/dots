@@ -187,6 +187,7 @@ exec --no-startup-id /usr/bin/hsetroot -solid "#90CAF9"
 
 # bindsym $mod+space exec rofi -combi-modi window,run -show combi -modi combi
 bindsym $mod+space exec rofi -show drun -show-icons -theme /home/ben/.config/cloud.rasi
+bindsym $mod+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}' -theme /home/ben/.config/cloud.rasi
 bindsym $mod+shift+s exec flameshot gui
 
 bindsym XF86MonBrightnessUp exec brightness+
