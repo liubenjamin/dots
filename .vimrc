@@ -12,6 +12,7 @@ set inccommand=nosplit
 set ts=4 sw=4
 set expandtab
 set smartindent
+set smc=0
 syntax on
 colorscheme onedark
 highlight Comment cterm=italic gui=italic
