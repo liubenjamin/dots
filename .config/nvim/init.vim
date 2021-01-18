@@ -43,6 +43,7 @@ nnoremap <C-K> <C-W>k
 nnoremap <C-L> <C-W>l
 
 " split opening
+nnoremap <leader>h :new<CR>
 nnoremap <leader>v :vnew<CR>
 
 " tab opening
