@@ -82,11 +82,13 @@ endif
 
 " vim-plug
 call plug#begin('~/.config/nvim/plugged')
+Plug 'ap/vim-css-color'
+Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshdick/onedark.vim'
-Plug 'justinmk/vim-sneak'
 Plug 'kevinhwang91/rnvimr'
 Plug 'machakann/vim-highlightedyank'
+Plug 'monsonjeremy/onedark.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
 Plug 'psliwka/vim-smoothie'
@@ -105,6 +107,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd bufwinenter * silent NERDTreeMirror
 let NERDTreeShowLineNumbers=1
 
+" vim-easymotion
+let g:EasyMotion_do_mapping = 0
+map <leader>f <Plug>(easymotion-bd-w)
+nmap <Leader>f <Plug>(easymotion-overwin-w)
+
 " vim-smoothie enable gg and G
 let g:smoothie_experimental_mappings=1
 
@@ -114,6 +121,7 @@ nmap <leader>r : RnvimrToggle<CR>
 
 " color scheme after loading plugin
 colorscheme onedark
+lua require('onedark').setup()
 hi cursorlinenr ctermfg=white
 
 " auto source vimrc on save

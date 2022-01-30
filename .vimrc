@@ -1,1 +1,1 @@
-.config/nvim/init.vim
+/home/ben/.config/nvim/init.vim
