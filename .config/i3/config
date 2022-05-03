@@ -116,6 +116,7 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+bindsym $mod+grave workspace back_and_forth
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
@@ -178,6 +179,7 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh --shapes
 exec_always --no-startup-id greenclip daemon
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps
 exec_always --no-startup-id libinput-gestures-setup start
+exec_always --no-startup-id nm-applet
 
 for_window [class=".*"] border pixel 5
 for_window [class="Spotify"] border pixel 0
@@ -192,7 +194,7 @@ client.background       #ffffff
 
 title_align center
 
-gaps inner 8
+gaps inner 4
 gaps outer 1
 
 smart_borders on
@@ -208,3 +210,8 @@ bindsym XF86MonBrightnessUp exec brightness+
 bindsym XF86MonBrightnessDown exec brightness-
 
 bindsym $mod+control+l exec betterlockscreen -l
+
+bindsym $mod+Tab scratchpad show
+bindsym $mod+shift+Tab move scratchpad
+
+bindsym $mod+p exec --no-startup-id polybar-msg cmd toggle
