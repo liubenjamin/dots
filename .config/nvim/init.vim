@@ -10,6 +10,7 @@ set showmatch                   " show matching brace
 set ts=4 sw=4                   " tab and indent size
 set cursorline                  " enable cursor line
 set ignorecase                  " case insensitive search
+set iskeyword-=_                " split words at underscore
 set relativenumber              " relative line numbers
 set inccommand=nosplit          " substitution live preview
 set incsearch hlsearch          " incremental and highlight search
@@ -30,7 +31,7 @@ nnoremap C "_C
 noremap Y y$
 
 " move to beginning/end of line
-noremap B ^
+noremap Q ^
 noremap E $
 
 " paste in insert mode
@@ -48,12 +49,8 @@ nnoremap <leader>v :vnew<CR>
 
 " tab navigation
 nnoremap <silent> <C-t> :tabnew<CR>
-nnoremap <silent> tn :tabnext<CR>
-nnoremap <silent> tp :tabprevious<CR>
 nnoremap <silent> <leader>n :tabnext<CR>
 nnoremap <silent> <leader>p :tabprevious<CR>
-" nnoremap <silent> <tab> :tabnext<CR>
-" nnoremap <silent> <s-tab> :tabprevious<CR>
 
 " write and quit
 nnoremap <leader>w :w<CR>
@@ -65,8 +62,16 @@ vnoremap <leader><space> zz
 nnoremap n nzz
 nnoremap N Nzz
 
-" center on insert
-" autocmd insertenter * norm zz
+" moving text
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '>-2<CR>gv=gv
+inoremap <C-j> <esc>:m .+1<CR>==
+inoremap <C-k> <esc>:m .-2<CR>==
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+
+" better matching pair
+nnoremap , %
 
 " matching pairs
 set matchpairs+=<:>
@@ -78,13 +83,6 @@ nmap <C-y> [s1z=<c-o>
 
 " toggle highlight
 nnoremap <silent> <leader>/ :set hls!<cr>
-" moving text
-" vnoremap <C-j> :m '>+1<CR>gv=gv
-" vnoremap <C-k> :m '>-2<CR>gv=gv
-" inoremap <C-j> <esc>:m .+1<CR>==
-" inoremap <C-k> <esc>:m .-2<CR>==
-" nnoremap <C-j> :m .+1<CR>==
-" nnoremap <C-k> :m .-2<CR>==
 
 " undo
 set undofile
@@ -113,26 +111,25 @@ endif
 
 " vim-plug
 call plug#begin('~/.config/nvim/plugged')
-Plug 'Xuyuanp/scrollbar.nvim'
+Plug 'akinsho/bufferline.nvim'
 Plug 'catppuccin/nvim'
+Plug 'folke/todo-comments.nvim'
 Plug 'gcmt/wildfire.vim'
 Plug 'junegunn/seoul256.vim'
-Plug 'kevinhwang91/rnvimr'
-Plug 'kyazdani42/nvim-tree.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lervag/vimtex'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-highlightedyank'
-Plug 'mg979/vim-xtabline'
 Plug 'monsonjeremy/onedark.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'phaazon/hop.nvim'
 Plug 'psliwka/vim-smoothie'
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -143,11 +140,13 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-surround'
 Plug 'windwp/nvim-autopairs'
 Plug 'xiyaowong/nvim-transparent'
+Plug 'Xuyuanp/scrollbar.nvim'
 call plug#end()
 
 " color scheme after loading plugin
 set termguicolors
-colorscheme deus
+colorscheme catppuccin
+highlight LineNr guifg=white
 
 " transparency
 nmap tt :TransparentToggle<CR>
@@ -162,9 +161,6 @@ nmap <silent> <leader>c :TComment<CR>
 vmap <silent> <leader>c :TComment<CR>
 nmap <silent> <C-c> :TComment<CR>
 
-" nvim-tree
-nmap <silent> <C-n> :NvimTreeToggle<CR>
-
 " hop
 nmap <silent> ; :HopWord<CR>
 nmap <silent> ' :HopChar1<CR>
@@ -173,10 +169,6 @@ nmap <silent> ' :HopChar1<CR>
 let g:smoothie_experimental_mappings=1
 let g:smoothie_speed_linear_factor=90
 let g:smoothie_speed_exponentiation_factor=0.5
-
-" ranger file explorer
-let g:rnvimr_ex_enable=1
-nmap <leader>r :RnvimrToggle<CR>
 
 " rainbow pairs
 let g:rainbow_active = 1
@@ -233,32 +225,38 @@ nmap <silent> gr <Plug>(coc-rename)
 nmap <silent> gc <Plug>(coc-references)
 nnoremap <silent> gh :call CocActionAsync('doHover')<CR>
 
-function! s:check_back_space() abort
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+inoremap <silent><expr> <C-space> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <Tab>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<Tab>" :
-      \ coc#refresh()
-
 lua <<EOF
-require('hop').setup()
+require('bufferline').setup({
+    options = {
+        mode = "tabs"
+    }
+})
 require('gitsigns').setup()
-require("transparent").setup({
-    enable = true
-})
-require('nvim-tree').setup({
-    view = { number = true, relativenumber = true }
-})
-require('nvim-autopairs').setup({
-    disable_filetype = { "TelescopePrompt" , "vim" },
+require('hop').setup()
+require('indent_blankline').setup({
+    show_current_context = true,
 })
 require('lualine').setup({
     options = { section_separators = '', component_separators = '' }
 })
-require('nvim-treesitter.configs').setup {
+require('nvim-autopairs').setup({
+    disable_filetype = { "TelescopePrompt" , "vim" },
+})
+require('nvim-treesitter.configs').setup({
     ensure_installed = { "c", "cpp", "java", "latex", "python" },
     sync_install = false,
     highlight = {
@@ -266,9 +264,11 @@ require('nvim-treesitter.configs').setup {
         disable = { "latex" },
         additional_vim_regex_highlighting = false,
         },
-    }
-require('indent_blankline').setup {
-    show_current_context = true,
-    show_current_context_start = true,
-    }
+})
+require('telescope').load_extension('fzf')
+require('todo-comments').setup()
+require('transparent').setup({
+    enable = true
+})
+require('treesitter-context').setup()
 EOF
