@@ -1,12 +1,25 @@
 # general
-alias vim='nvim'
-alias ls='exa'
-alias pacman='yay'
-alias zathura='devour zathura'
 alias dots='/usr/bin/git --git-dir=$HOME/src/dots/ --work-tree=$HOME'
-[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+alias ga='git add'
+alias gau='git add -u'
+alias gcd='cd $(git rev-parse --show-toplevel)'
+alias gcm='git commit -m'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gds='git diff --staged'
+alias gj='git status'
+alias gl='git log --all --decorate --oneline --graph'
+alias gl='git log --oneline --stat -n 5'
+alias gll='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=short -n 20'
+alias gp='git push'
+alias pacman='yay'
 alias ra='. ranger'
+alias ta='tmux attach'
+alias z="devour zathura \'\"\$(find ~ -name '*.pdf' | fzf)\"\'"
 bindkey -s '^o' 'ra\n'
+[ -x "$(command -v bat)" ] && alias cat='bat'
+[ -x "$(command -v ls)" ] && alias ls='exa --icons'
+[ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
 
 path+=$HOME/.bin:.
 export SPICETIFY_INSTALL="/home/ben/spicetify-cli"
@@ -18,6 +31,10 @@ export EDITOR=nvim;
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
+setopt appendhistory
+setopt histignoredups
+setopt incappendhistory
+setopt sharehistory
 
 # color
 autoload -U colors && colors
@@ -54,8 +71,10 @@ autoload -Uz _zinit
 # plugins
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
+zinit snippet https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/command-not-found/command-not-found.plugin.zsh
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
 
 bindkey '^[[Z' autosuggest-accept
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#61afef,standout"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
