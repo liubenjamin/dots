@@ -1,0 +1,14 @@
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[core]
+	editor = vim
+[alias]
+	cane = commit --amend --no-edit
+[push]
+	autoSetupRemote = true
+[pull]
+	ff = only
+[merge]
+	conflictStyle = diff3
+[gpg]
+	format = ssh
