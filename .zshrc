@@ -1,5 +1,3 @@
-export FZF_DEFAULT_OPTS="--layout=reverse"
-
 # https://news.ycombinator.com/item?id=9869613
 function up {
         if [[ "$#" < 1 ]] ; then
@@ -50,18 +48,17 @@ alias pp='gpomr && gpfwl'
 alias m='make test'
 alias targets='make -qp | awk -F'\'':'\'' '\''/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}'\'' | sort -u'
 alias pacman='yay'
-alias ra='. ranger'
 alias ta='tmux attach'
-bindkey -s '^o' 'ra\n'
-[ -x "$(command -v bat)" ] && alias cat='bat --theme=Dracula'
+[ -x "$(command -v bat)" ] && alias cat='bat --theme=TwoDark'
+[ -x "$(command -v bat)" ] && alias more='bat --theme=TwoDark'
+[ -x "$(command -v bat)" ] && alias less='bat --theme=TwoDark'
 [ -x "$(command -v ls)" ] && alias ls='eza --icons'
 [ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
+[ -x "$(command -v nvim)" ] && export EDITOR=nvim && export VISUAL=nvim
 
 path+=$HOME/.bin:.
 export SPICETIFY_INSTALL="/home/ben/spicetify-cli"
 export PATH="$SPICETIFY_INSTALL:$PATH"
-export VISUAL=nvim;
-export EDITOR=nvim;
 
 # history
 HISTSIZE=10000
@@ -77,20 +74,7 @@ setopt interactive_comments
 autoload -U colors && colors
 
 # basic auto/tab complete:
-autoload -U compinit
-zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' # case insensitive match
-zmodload zsh/complist
-autoload bashcompinit && bashcompinit
-compinit
-_comp_options+=(globdots)		# include hidden files
-
-# use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -v '^?' backward-delete-char
 
 # auto install zinit
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -106,17 +90,30 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # plugins
+zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-syntax-highlighting
+zinit light zdharma-continuum/fast-syntax-highlighting
 zinit snippet https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/command-not-found/command-not-found.plugin.zsh
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
-zinit light junegunn/fzf
+zinit ice wait lucid
 zinit light paulirish/git-open
+zinit ice wait lucid
 zinit light Aloxaf/fzf-tab
-zinit load atuinsh/atuin
 
+# plugin configs
 bindkey '^[[Z' autosuggest-accept
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#61afef,standout"
+source <(fzf --zsh)
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
+
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle :prompt:pure:git:branch color yellow
+zstyle :prompt:pure:git:stash show yes
+export FZF_DEFAULT_OPTS="--layout=reverse"
+
+autoload -U compinit && compinit
+zinit cdreplay -q
