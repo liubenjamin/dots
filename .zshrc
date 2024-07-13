@@ -1,3 +1,18 @@
+export FZF_DEFAULT_OPTS="--layout=reverse"
+
+# https://news.ycombinator.com/item?id=9869613
+function up {
+        if [[ "$#" < 1 ]] ; then
+            cd ..
+        else
+            CDSTR=""
+            for i in {1..$1} ; do
+                CDSTR="../$CDSTR"
+            done
+            cd $CDSTR
+        fi
+    }
+
 # general
 alias dots='/usr/bin/git --git-dir=$HOME/src/dots/ --work-tree=$HOME'
 alias g='git'
@@ -100,3 +115,5 @@ zinit light sindresorhus/pure
 bindkey '^[[Z' autosuggest-accept
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#61afef,standout"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
