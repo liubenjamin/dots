@@ -52,10 +52,9 @@ alias targets='make -qp | awk -F'\'':'\'' '\''/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/
 alias pacman='yay'
 alias ra='. ranger'
 alias ta='tmux attach'
-alias z="devour zathura \'\"\$(find ~ -name '*.pdf' | fzf)\"\'"
 bindkey -s '^o' 'ra\n'
 [ -x "$(command -v bat)" ] && alias cat='bat --theme=Dracula'
-[ -x "$(command -v ls)" ] && alias ls='exa --icons'
+[ -x "$(command -v ls)" ] && alias ls='eza --icons'
 [ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
 
 path+=$HOME/.bin:.
@@ -72,6 +71,7 @@ setopt appendhistory
 setopt histignoredups
 setopt incappendhistory
 setopt sharehistory
+setopt interactive_comments
 
 # color
 autoload -U colors && colors
@@ -111,9 +111,12 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit snippet https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/command-not-found/command-not-found.plugin.zsh
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
+zinit light junegunn/fzf
+zinit light paulirish/git-open
+zinit light Aloxaf/fzf-tab
+zinit load atuinsh/atuin
 
 bindkey '^[[Z' autosuggest-accept
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#61afef,standout"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
