@@ -24,6 +24,14 @@ source <(fzf --zsh)
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 
+[ -x "$(command -v bat)" ] && alias cat='bat --theme=TwoDark'
+[ -x "$(command -v bat)" ] && alias more='bat --theme=TwoDark'
+[ -x "$(command -v bat)" ] && alias less='bat --theme=TwoDark'
+[ -x "$(command -v eza)" ] && alias ls='eza --icons'
+[ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
+[ -x "$(command -v nvim)" ] && export EDITOR=nvim && export VISUAL=nvim
+[ -x "$(command -v kubectl)" ] && alias k='kubectl'
+
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
@@ -62,16 +70,8 @@ function up {
         fi
     }
 
-# aliases
-alias dots='/usr/bin/git --git-dir=$HOME/src/dots.git/ --work-tree=$HOME'
-
-[ -x "$(command -v bat)" ] && alias cat='bat --theme=TwoDark'
-[ -x "$(command -v bat)" ] && alias more='bat --theme=TwoDark'
-[ -x "$(command -v bat)" ] && alias less='bat --theme=TwoDark'
-[ -x "$(command -v eza)" ] && alias ls='eza --icons'
-[ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
-[ -x "$(command -v nvim)" ] && export EDITOR=nvim && export VISUAL=nvim
-
+# general
+alias dots='/usr/bin/git --git-dir=$HOME/src/dots/ --work-tree=$HOME'
 alias g='git'
 alias ga='git add'
 alias gaf='git ls-files -m -o --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add'
@@ -82,6 +82,7 @@ alias gcb='git checkout -b'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias gcm='git commit -m'
 alias gco='git checkout $(git for-each-ref --format="%(refname:short)" refs/heads/ | fzf)'
+alias gcp='git checkout -p'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gdn='git diff --name-only'
@@ -91,20 +92,22 @@ alias gg='gau; git cane'
 alias ggg='gau; git cane; gpfwl'
 alias girl='git reflog -n15'
 alias gj='git status'
-alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=short -n 15'
+alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
 alias gll='git log --oneline --stat -n 5'
 alias gp='git pull'
 alias gpfwl='git push --force-with-lease'
 alias gpfwln='git push --force-with-lease --no-verify'
-alias gpomr='git pull origin main --rebase -Xignore-whitespace'
+alias gpomr='function _gpomr() { git pull origin main --rebase="${1:-true}" -Xignore-whitespace; }; _gpomr'
+alias gpu='git pull'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
 alias gret='git rebase --edit-todo'
+alias gri='f() { git rebase -i HEAD~${1:-7}; }; f'
 alias gri='git rebase --interactive'
 alias gs-='git switch -'
+alias gs='git switch'
 alias gsh='git show'
 alias gsm='git switch main'
-alias gsw='git switch'
 alias gto='git open'
 alias pp='gpomr && gpfwl'
 alias targets='make -qp | awk -F'\'':'\'' '\''/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}'\'' | sort -u'
@@ -112,10 +115,11 @@ alias pacman='yay'
 alias ta='tmux attach'
 
 path+=$HOME/.bin:.
+path+=/opt/homebrew/bin/
 
 # history
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.zsh_history
 setopt appendhistory
 setopt histignoredups
@@ -142,3 +146,4 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
 export FZF_DEFAULT_OPTS="--layout=reverse"
 
+ulimit -n 99999999
