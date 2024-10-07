@@ -81,7 +81,15 @@ alias gb='git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format
 alias gcb='git checkout -b'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias gcm='git commit -m'
-alias gco='git checkout $(git for-each-ref --format="%(refname:short)" refs/heads/ | fzf)'
+gco() {
+    local branch=$(git for-each-ref --format="%(refname:short)" refs/heads/ | fzf)
+    if [ -n "$branch" ]; then
+        git checkout "$branch"
+    else
+        echo "No branch selected."
+    fi
+}
+alias gcv='git commit -v'
 alias gcp='git checkout -p'
 alias gd='git diff'
 alias gdc='git diff --cached'
@@ -91,7 +99,8 @@ alias gdu='git diff @{upstream}'
 alias gg='gau; git cane'
 alias ggg='gau; git cane; gpfwl'
 alias girl='git reflog -n15'
-alias gj='git status'
+alias gj='git status -uno'
+alias gja='git status'
 alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
 alias gll='git log --oneline --stat -n 5'
 alias gp='git pull'
@@ -103,7 +112,6 @@ alias gra='git rebase --abort'
 alias grc='git rebase --continue'
 alias gret='git rebase --edit-todo'
 alias gri='f() { git rebase -i HEAD~${1:-7}; }; f'
-alias gri='git rebase --interactive'
 alias gs-='git switch -'
 alias gs='git switch'
 alias gsh='git show'

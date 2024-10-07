@@ -1,15 +1,21 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [core]
-	editor = vim
+	editor = nvim -f
 [alias]
 	cane = commit --amend --no-edit
+	authors-list = shortlog -e -s -n
+	aliases = "!f() { git config --global -l | grep alias | sort; }; f"
+	uncommit = reset --soft HEAD^
+	revertfile = checkout --
+	count-lines = "!git log --author=\"liubenjamin\" --since=\"2024-07-08\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2 } END { print \"Added lines: \" add; print \"Removed lines: \" subs; print \"Total lines changed: \" add + subs }'"
+
 [push]
 	autoSetupRemote = true
 [pull]
-	ff = only
+	rebase = true
 [merge]
-	conflictStyle = diff3
+	conflictStyle = zdiff3
 [gpg]
 	format = ssh
 [user]
@@ -28,3 +34,14 @@
     syntax-theme = GitHub
 [diff]
     colorMoved = default
+	algorithm = histogram
+[gc]
+	auto = 1
+[commit]
+	gpgsign = true
+[pack]
+	threads = 6
+[help]
+	autocorrect = 10
+[rebase]
+	autosquash = true
