@@ -1,3 +1,21 @@
+function cd() {
+    if [ $# -eq 0 ]; then
+        # no arguments
+        z
+    elif [ $# -eq 1 ]; then
+        if [ -f "$1" ]; then
+            # argument is a file
+            z "$(dirname $1)"
+        else
+            # argument is not a file, assume it's a directory or handle as needed
+            z "$1"
+        fi
+    else
+        # zoxide best match
+        z "$@"
+    fi
+}
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -27,7 +45,7 @@ eval "$(atuin init zsh --disable-up-arrow)"
 [ -x "$(command -v bat)" ] && alias cat='bat --theme=TwoDark'
 [ -x "$(command -v bat)" ] && alias more='bat --theme=TwoDark'
 [ -x "$(command -v bat)" ] && alias less='bat --theme=TwoDark'
-[ -x "$(command -v eza)" ] && alias ls='eza --icons'
+[ -x "$(command -v eza)" ] && alias ls='eza --icons=always'
 [ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
 [ -x "$(command -v nvim)" ] && export EDITOR=nvim && export VISUAL=nvim
 [ -x "$(command -v kubectl)" ] && alias k='kubectl'
@@ -75,13 +93,13 @@ alias dots='/usr/bin/git --git-dir=$HOME/src/dots/ --work-tree=$HOME'
 alias g='git'
 alias ga='git add'
 alias gaf='git ls-files -m -o --exclude-standard | fzf --print0 -m | xargs -0 -t -o git add'
-alias gap='git add -p'
+alias gap='git add -AN && git add -p'
 alias gau='git add -u'
 alias gb='git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)"'
 alias gcb='git checkout -b'
 alias gcd='cd $(git rev-parse --show-toplevel)'
 alias gcm='git commit -m'
-gco() {
+gsw() {
     local branch=$(git for-each-ref --format="%(refname:short)" refs/heads/ | fzf)
     if [ -n "$branch" ]; then
         git checkout "$branch"
@@ -99,21 +117,22 @@ alias gdu='git diff @{upstream}'
 alias gg='gau; git cane'
 alias ggg='gau; git cane; gpfwl'
 alias girl='git reflog -n15'
-alias gj='git status -uno'
+alias gj='git status'
 alias gja='git status'
+alias gjuno='git status -uno'
 alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
 alias gll='git log --oneline --stat -n 5'
 alias gp='git pull'
 alias gpfwl='git push --force-with-lease'
 alias gpfwln='git push --force-with-lease --no-verify'
 alias gpomr='function _gpomr() { git pull origin main --rebase="${1:-true}" -Xignore-whitespace; }; _gpomr'
-alias gpu='git pull'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
 alias gret='git rebase --edit-todo'
 alias gri='f() { git rebase -i HEAD~${1:-7}; }; f'
 alias gs-='git switch -'
 alias gs='git switch'
+alias gsc='git switch -c'
 alias gsh='git show'
 alias gsm='git switch main'
 alias gto='git open'
