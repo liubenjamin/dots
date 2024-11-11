@@ -36,7 +36,7 @@
     colorMoved = default
 	algorithm = histogram
 [gc]
-	auto = 1
+	auto = 0
 [commit]
 	gpgsign = true
 [pack]
@@ -45,3 +45,6 @@
 	autocorrect = 10
 [rebase]
 	autosquash = true
+	updateRefs = true
+[fetch]
+	prune = true
