@@ -1,0 +1,7 @@
+# background-opacity = 0.82
+background-blur-radius = 22
+cursor-style = bar
+font-family = IosevkaTerm Nerd Font Mono
+font-size = 24
+macos-titlebar-style = tabs
+theme = argonaut
