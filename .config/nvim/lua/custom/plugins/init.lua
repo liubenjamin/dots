@@ -2,4 +2,7 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
-return {}
+return {
+  { 'hadronized/hop.nvim', opts = {} },
+  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+}
