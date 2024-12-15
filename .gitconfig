@@ -1,14 +1,14 @@
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+	insteadOf = git://github.com/
 [core]
 	editor = nvim -f
 [alias]
-	cane = commit --amend --no-edit
-	authors-list = shortlog -e -s -n
 	aliases = "!f() { git config --global -l | grep alias | sort; }; f"
+	authors-list = shortlog -e -s -n
+	cane = commit --amend --no-edit
+	discard = checkout --
 	uncommit = reset --soft HEAD^
-	revertfile = checkout --
-	count-lines = "!git log --author=\"liubenjamin\" --since=\"2024-07-08\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2 } END { print \"Added lines: \" add; print \"Removed lines: \" subs; print \"Total lines changed: \" add + subs }'"
 
 [push]
 	autoSetupRemote = true
@@ -31,7 +31,7 @@
     navigate = true
     side-by-side = true
     line-numbers = true
-    syntax-theme = GitHub
+    syntax-theme = Catppuccin Macchiato
 [diff]
     colorMoved = default
 	algorithm = histogram

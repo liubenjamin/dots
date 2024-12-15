@@ -1,21 +1,3 @@
-function cd() {
-    if [ $# -eq 0 ]; then
-        # no arguments
-        z
-    elif [ $# -eq 1 ]; then
-        if [ -f "$1" ]; then
-            # argument is a file
-            z "$(dirname $1)"
-        else
-            # argument is not a file, assume it's a directory or handle as needed
-            z "$1"
-        fi
-    else
-        # zoxide best match
-        z "$@"
-    fi
-}
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -25,14 +7,7 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Force certain more-secure behaviours from homebrew
-export HOMEBREW_NO_INSECURE_REDIRECT=1
-export HOMEBREW_CASK_OPTS=--require-sha
-export HOMEBREW_DIR=/opt/homebrew
-export HOMEBREW_BIN=/opt/homebrew/bin
-
-# export HOMEBREW_NO_AUTO_UPDATE=1
-export HOMEBREW_AUTO_UPDATE_SECS="86400"
+fpath+=($(brew --prefix)/share/zsh/site-functions)
 
 # Load homebrew shell variables
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -42,12 +17,11 @@ source <(fzf --zsh)
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 
-[ -x "$(command -v bat)" ] && alias cat='bat --theme=TwoDark'
-[ -x "$(command -v bat)" ] && alias more='bat --theme=TwoDark'
-[ -x "$(command -v bat)" ] && alias less='bat --theme=TwoDark'
+[ -x "$(command -v bat)" ] && alias cat='bat'
+[ -x "$(command -v bat)" ] && alias more='bat'
+[ -x "$(command -v bat)" ] && alias less='bat'
 [ -x "$(command -v eza)" ] && alias ls='eza --icons=always'
 [ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
-[ -x "$(command -v nvim)" ] && export EDITOR=nvim && export VISUAL=nvim
 [ -x "$(command -v kubectl)" ] && alias k='kubectl'
 
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -75,18 +49,6 @@ zinit wait lucid light-mode for \
   blockf atpull'zinit creinstall -q .' \
       zsh-users/zsh-completions
 
-# https://news.ycombinator.com/item?id=9869613
-function up {
-        if [[ "$#" < 1 ]] ; then
-            cd ..
-        else
-            CDSTR=""
-            for i in {1..$1} ; do
-                CDSTR="../$CDSTR"
-            done
-            cd $CDSTR
-        fi
-    }
 
 # general
 alias dots='/usr/bin/git --git-dir=$HOME/src/dots/ --work-tree=$HOME'
@@ -121,6 +83,7 @@ alias gj='git status'
 alias gja='git status'
 alias gjuno='git status -uno'
 alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
+alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%<(20)%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
 alias gll='git log --oneline --stat -n 5'
 alias gp='git pull'
 alias gpfwl='git push --force-with-lease'
@@ -171,6 +134,76 @@ zinit light Aloxaf/fzf-tab
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
-export FZF_DEFAULT_OPTS="--layout=reverse"
 
 ulimit -n 99999999
+
+# functions
+# https://gist.github.com/cschindlbeck/db0ac894a46aac42861e96437d8ed763#file-fzffuns-L13
+kil() {
+    local selection
+    selection=$(ps -e -o pid,comm | fzf)
+    local pid=$(echo "$selection" | awk '{print $1}')
+    local pname=$(echo "$selection" | awk '{print $2}')
+    if [ "$pid" != "" ]; then
+        kill -9 "$pid" > /dev/null 2>&1 && echo "Process $pname (PID $pid) has been successfully killed."
+    fi
+}
+
+cd() {
+    if [ $# -eq 0 ]; then
+        # no arguments
+        z
+    elif [ $# -eq 1 ]; then
+        if [ -f "$1" ]; then
+            # argument is a file
+            z "$(dirname $1)"
+        else
+            # argument is not a file, assume it's a directory or handle as needed
+            z "$1"
+        fi
+    else
+        # zoxide best match
+        z "$@"
+    fi
+}
+
+# https://news.ycombinator.com/item?id=9869613
+function up {
+        if [[ "$#" < 1 ]] ; then
+            cd ..
+        else
+            CDSTR=""
+            for i in {1..$1} ; do
+                CDSTR="../$CDSTR"
+            done
+            cd $CDSTR
+        fi
+    }
+
+
+# zle
+# https://nuclearsquid.com/writings/edit-long-commands/
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+# copy current command
+cmd_to_clip () { echo $BUFFER | tr -d '\n' | pbcopy }
+zle -N cmd_to_clip
+bindkey '^y' cmd_to_clip
+
+# variables
+export BAT_THEME="Catppuccin Macchiato"
+export FZF_DEFAULT_OPTS="--layout=reverse"
+export EDITOR='nvim -u ~/.config/nvim/init.lua'
+export VISUAL='nvim -u ~/.config/nvim/init.lua'
+
+export HOMEBREW_AUTO_UPDATE_SECS="86400"
+export HOMEBREW_BIN=/opt/homebrew/bin
+export HOMEBREW_CASK_OPTS=--require-sha
+export HOMEBREW_DIR=/opt/homebrew
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#61afef,standout'
