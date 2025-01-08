@@ -25,6 +25,8 @@
 	sort = -committerdate
 [core]
     pager = delta
+    preloadIndex = true
+    untrackedCache = true
 [interactive]
     diffFilter = delta --color-only
 [delta]
@@ -34,7 +36,7 @@
     syntax-theme = Catppuccin Macchiato
 [diff]
     colorMoved = default
-	algorithm = histogram
+    algorithm = histogram
 [gc]
 	auto = 0
 [commit]
@@ -48,3 +50,7 @@
 	updateRefs = true
 [fetch]
 	prune = true
+[rerere]
+	enabled = true
+[feature]
+	manyFiles = true
