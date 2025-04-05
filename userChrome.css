@@ -1,0 +1,8 @@
+/* about:config -> toolkit.legacyUserProfileCustomizations.stylesheets true */
+/* https://github.com/MrOtherGuy/firefox-csshacks/tree/master?tab=readme-ov-file#set-up-files-using-git */
+@import url(chrome/hide_tabs_toolbar_v2.css);
+
+/* https://github.com/piroor/treestyletab/wiki/Code-snippets-for-custom-style-rules#hide-the-tree-style-tab-header-at-the-top-of-the-sidebar */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+  display: none;
+}
