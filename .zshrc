@@ -7,8 +7,6 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-fpath+=($(brew --prefix)/share/zsh/site-functions)
-
 # Load homebrew shell variables
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -22,6 +20,7 @@ eval "$(atuin init zsh --disable-up-arrow)"
 [ -x "$(command -v bat)" ] && alias less='bat'
 [ -x "$(command -v eza)" ] && alias ls='eza --icons=always'
 [ -x "$(command -v nvim)" ] && alias vim='nvim' vimdiff='nvim -d'
+[ -x "$(command -v nvim)" ] && export EDITOR=nvim && export VISUAL=nvim
 [ -x "$(command -v kubectl)" ] && alias k='kubectl'
 
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -37,6 +36,9 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
+
+fpath+=($(brew --prefix)/share/zsh/site-functions)
+
 # https://zdharma-continuum.github.io/zinit/wiki/Example-Minimal-Setup/
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit wait lucid light-mode for \
@@ -48,7 +50,6 @@ zinit wait lucid light-mode for \
       zsh-users/zsh-autosuggestions \
   blockf atpull'zinit creinstall -q .' \
       zsh-users/zsh-completions
-
 
 # general
 alias dots='/usr/bin/git --git-dir=$HOME/src/dots/ --work-tree=$HOME'
@@ -70,16 +71,17 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gdn='git diff --name-only'
 alias gdom='git diff origin/main...'
+alias glom='git log origin/main...'
+alias gdom='git diff $(git symbolic-ref refs/remotes/origin/HEAD | sed "s@^refs/remotes/origin/@@")...'
 alias gds='git diff --staged'
 alias gdst='git diff --stat'
 alias gdu='git diff @{upstream}'
 alias gf='git fetch'
 alias gfom='git fetch origin main'
 alias gg='gau; git cane'
-alias ggg='gau; git cane; gpfwl'
+alias ggg='gau; git cane; gpfwln'
 alias girl='git reflog -n30'
 alias gj='git status'
-alias gja='git status'
 alias gjuno='git status -uno'
 alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%<(20)%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15 --color=always'
 alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
@@ -88,12 +90,14 @@ alias gly='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%<(20)%an%Cgreen
 alias gma='git merge --abort'
 alias gmc='git merge --continue'
 alias gmom='git merge origin/main'
-alias gp='git pull && clear'
+alias gp='git pull'
+alias gpn='git push --no-verify'
 alias gpfwl='git push --force-with-lease'
 alias gpfwln='git push --force-with-lease --no-verify'
 alias gpomr='function _gpomr() { git pull origin main --rebase="${1:-true}" -Xignore-whitespace; }; _gpomr'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
+alias grd='git range-diff @{u}...@'
 alias gret='git rebase --edit-todo'
 alias gri='f() { git rebase -i HEAD~${1:-7}; }; f'
 alias griom='git rebase -i origin/main'
@@ -102,15 +106,29 @@ alias gs='git switch'
 alias gsc='git switch -c'
 alias gsh='git show'
 alias gsm='git switch main'
+alias gsm='git switch $(git symbolic-ref refs/remotes/origin/HEAD | sed "s@^refs/remotes/origin/@@")'
 alias gto='git open'
 alias mom='git fetch && git merge origin/main'
-alias pp='gpomr && gpfwl'
 alias rom='git fetch && git rebase -i origin/main'
 alias targets='make -qp | awk -F'\'':'\'' '\''/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}'\'' | sort -u'
 alias pacman='yay'
 alias ta='tmux attach'
+alias ez='exec zsh'
+alias gtdraft='gt s -fq'
+alias gtopen='gt s -fqp'
+alias prv='gh pr view -w'
+alias prl='gh pr list --state open --author "@me" --limit 100'
 
-path+=$HOME/.bin:.
+# k8s
+alias k='kubectl'
+alias kgp='k get pods'
+alias kns='kubens'
+alias ktx='kubectx'
+alias kctx='kubectx'
+alias kx='f() { [ "$1" ] && kubectl config use-context $1 || kubectl config current-context ; } ; f'
+alias kn='f() { [ "$1" ] && kubectl config set-context --current --namespace $1 || kubectl config view --minify | grep namespace | cut -d" " -f6 ; } ; f'
+
+path+=$HOME/bin:.
 path+=/opt/homebrew/bin/
 
 # history
@@ -196,6 +214,8 @@ bindkey '^x^e' edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
+# https://github.com/atuinsh/atuin/issues/1539
+bindkey "^[[91;5u" vi-cmd-mode
 # copy current command
 cmd_to_clip () { echo $BUFFER | tr -d '\n' | pbcopy }
 zle -N cmd_to_clip
@@ -213,3 +233,17 @@ export HOMEBREW_CASK_OPTS=--require-sha
 export HOMEBREW_DIR=/opt/homebrew
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#61afef,standout'
+
+export GREP_OPTIONS="--color=auto"
+
+bindkey '^K' run-gsw
+
+# Function to execute the command
+run-gsw() {
+    zle reset-prompt    # Reset the prompt after running the command
+    gsw
+    zle redisplay       # Refresh the display
+}
+
+# Tell ZLE (Zsh Line Editor) to use the function
+zle -N run-gsw
