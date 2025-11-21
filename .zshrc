@@ -84,7 +84,8 @@ alias girl='git reflog -n30'
 alias gj='git status'
 alias gjuno='git status -uno'
 alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%<(20)%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15 --color=always'
-alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15'
+alias gl='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%<(20,trunc)%aN %Creset%s %C(auto)%d" \
+  --date=format:"%Y-%m-%d %H:%M:%S" --decorate -n 15'
 alias gll='git log --oneline --stat -n 5'
 alias gly='git log --pretty=format:"%C(yellow)%h %Cred%ad %Cblue%<(20)%an%Cgreen%d %Creset%s" --date=format:"%Y-%m-%d %H:%M:%S" -n 15  | yank'
 alias gma='git merge --abort'
@@ -127,6 +128,28 @@ alias ktx='kubectx'
 alias kctx='kubectx'
 alias kx='f() { [ "$1" ] && kubectl config use-context $1 || kubectl config current-context ; } ; f'
 alias kn='f() { [ "$1" ] && kubectl config set-context --current --namespace $1 || kubectl config view --minify | grep namespace | cut -d" " -f6 ; } ; f'
+
+alias j='jj'
+alias jdu='jj du'
+alias jdu-='jj du-'
+alias jst='jj st'
+alias jsp='jj split'
+alias jsh='jj show'
+alias jl='jj l'
+alias jn='jj new'
+alias je='jj edit'
+alias jbl='jj bookmark list'
+alias jd='jj diff'
+alias jdm='jj describe -m'
+alias jde='jj describe --edit'
+alias ju='jj undo'
+alias jsq='jj squash'
+alias jp='jj push'
+alias jp-='jj push-'
+alias jf='jj fetch'
+alias jpb='jj pushb'
+alias jpb-='jj pushb-'
+alias jui='jjui'
 
 path+=$HOME/bin:.
 path+=/opt/homebrew/bin/
@@ -217,7 +240,7 @@ bindkey -M vicmd v edit-command-line
 # https://github.com/atuinsh/atuin/issues/1539
 bindkey "^[[91;5u" vi-cmd-mode
 # copy current command
-cmd_to_clip () { echo $BUFFER | tr -d '\n' | pbcopy }
+cmd_to_clip () { print -rn -- "$BUFFER" | pbcopy }
 zle -N cmd_to_clip
 bindkey '^y' cmd_to_clip
 

@@ -1,0 +1,104 @@
+#:schema https://jj-vcs.github.io/jj/latest/config-schema.json
+
+[user]
+name = "benjamin liu"
+email = "liu.benjamin@gmail.com"
+
+[signing]
+behavior = "own"
+backend = "ssh"
+key = "~/.ssh/id_ed25519.pub"
+
+[templates]
+# git_push_bookmark = '"benjamin.liu/push-" ++ change_id.short()'
+git_push_bookmark = '"benjamin.liu/" ++ committer.timestamp().format("%m-%d") ++ "/push-" ++ change_id.short()'
+
+[aliases]
+setb = ["util", "exec", "--", "bash", "-c", """
+  first_desc=$(jj log -r 'roots(trunk()..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  bookmark="benjamin.liu/$(jj log -r @ -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
+  jj bookmark set "$bookmark" --allow-backwards
+  echo "Set bookmark: $bookmark"
+  """, ""]
+pushb = ["util", "exec", "--", "bash", "-c", """
+  first_desc=$(jj log -r 'roots(trunk()..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  bookmark="benjamin.liu/$(jj log -r @ -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
+  jj bookmark set "$bookmark" --allow-backwards
+  jj git push --bookmark "$bookmark" --allow-new
+  """, ""]
+setb- = ["util", "exec", "--", "bash", "-c", """
+  first_desc=$(jj log -r 'roots(trunk()..@-)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  bookmark="benjamin.liu/$(jj log -r @- -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
+  jj bookmark set "$bookmark" -r @- --allow-backwards
+  echo "Set bookmark: $bookmark"
+  """, ""]
+pushb- = ["util", "exec", "--", "bash", "-c", """
+  first_desc=$(jj log -r 'roots(trunk()..@-)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  bookmark="benjamin.liu/$(jj log -r @- -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
+  jj bookmark set "$bookmark" -r @- --allow-backwards
+  jj git push --bookmark "$bookmark" --allow-new
+  """, ""]
+bm = ['bookmark', 'move']
+nodesc = ['log', '-r', 'description(exact:"")']
+fetch = ['git', 'fetch', '--tracked']
+l = ["--no-pager", "log", "-r", "@ | trunk() | (((trunk()..@):: | (trunk()..@)-) & ~empty()) | (trunk()..(mine() & bookmarks() & ~trunk()))::"]
+mine = ["bookmark", "list", "-r", "mine()"]
+mog = ['new', '@', 'green', '-m', 'merge origin/green']
+push = ['git', 'push', '-r', '@']
+pushc = ['git', 'push', '-c', '@']
+push- = ['git', 'push', '-r', '@-']
+pushc- = ['git', 'push', '-c', '@-']
+restack = ['rebase', '--skip-emptied', '-s', 'roots(immutable_heads()..@)', '-d', 'trunk()']
+# tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@"]
+# tug- = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+tug = ["bookmark", "move", "--from", "heads(::@- & (bookmarks() ~ trunk()))", "--to", "@"]
+tug- = ["bookmark", "move", "--from", "heads(::@- & (bookmarks() ~ trunk()))", "--to", "@-"]
+sync = ["util", "exec", "--", "bash", "-c", """
+echo "[inf] jj fetch:"
+jj fetch
+
+echo "[inf] jj restack:"
+jj restack
+""", ""]
+
+newt = ['new', 'trunk()']
+
+# open pr for nearest bookmark
+pr = ["util", "exec", "--", "bash", "-c", """
+ref=${1:-@-}
+gh pr view --web "$(jj bookmark list -r 'closest_bookmark('$ref')' -T 'name')"
+""", ""]
+
+du = ["util", "exec", "--", "bash", "-c", """
+bookmark=$(jj bookmark list -r @ -T 'name ++ "\n"' | head -1)
+echo "$bookmark"
+jj diff -t @ -f "$bookmark@origin"
+""", ""]
+du- = ["util", "exec", "--", "bash", "-c", """
+bookmark=$(jj bookmark list -r @- -T 'name ++ "\n"' | head -1)
+echo "$bookmark"
+jj diff -t @- -f "$bookmark@origin"
+""", ""]
+
+[revset-aliases]
+"pr_head()" = "heads(trunk()..@ & tracked_remote_bookmarks())"
+"pr_base()" = "coalesce(heads(trunk()..pr_head()- & tracked_remote_bookmarks()), trunk())"
+'closest_bookmark(to)' = 'heads(::to & bookmarks())'
+# "immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine())"
+
+[ui]
+editor = "nvim"
+pager = "delta"
+diff-formatter = ":git"
+bookmark-list-sort-keys = ["committer-date-"]
+default-command = "log"
+conflict-marker-style = "git"
+
+[ui.movement]
+edit = true
+
+[revsets]
+# Prioritize the current bookmark
+# short-prefixes = "(trunk()..@)::"
+# log = '@ | ancestors(trunk()..(visible_heads() & mine()), 2) | trunk()'
+log = '@ | trunk() | (((trunk()..@):: | (trunk()..@)-) & ~empty()) | (trunk()..(mine() & bookmarks() & ~trunk()))::'

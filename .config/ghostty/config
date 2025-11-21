@@ -1,14 +1,25 @@
 # background-opacity = 0.82
-background-blur-radius = 22
+# background-blur-radius = 22
 cursor-style = bar
 font-family = IosevkaTerm Nerd Font Mono
-font-size = 24
+font-size = 14
 macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 theme = argonaut
-theme = catppuccin-macchiato
+theme = catppuccin-macchiato.conf
 window-height=200
 window-padding-x = 15
 window-padding-y = 15
 window-title-font-family = IosevkaTerm Nerd Font Mono
 window-width=200
+keybind = super+enter=ignore
+keybind = super+ctrl+f=ignore
+scrollback-limit = 1000000000
+split-divider-color = ffffff
+keybind = shift+enter=text:\n
+keybind = alt+super+h=goto_split:left
+keybind = alt+super+j=goto_split:bottom
+keybind = alt+super+k=goto_split:top
+keybind = alt+super+l=goto_split:right
+keybind = alt+super+n=next_tab
+keybind = alt+super+p=previous_tab
