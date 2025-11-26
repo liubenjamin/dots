@@ -1,15 +1,23 @@
+[include]
+	path = ~/src/delta/themes.gitconfig
+	path = ~/.gitconfig.work
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 	insteadOf = git://github.com/
 [core]
 	editor = nvim -f
+	pager = delta
+	preloadIndex = true
+	untrackedCache = true
+	sshCommand = ssh -o ControlPath=none
 [alias]
 	aliases = "!f() { git config --global -l | grep alias | sort; }; f"
 	authors-list = shortlog -e -s -n
+	ca = commit --amend
 	cane = commit --amend --no-edit
 	discard = checkout --
+	mergedcommits = "!f() { git log --oneline \"$1\"^1..\"$1\"^2; }; f"
 	uncommit = reset --soft HEAD^
-
 [push]
 	autoSetupRemote = true
 [pull]
@@ -20,37 +28,48 @@
 	format = ssh
 [user]
 	name = benjamin liu
-	signingkey = /Users/benjamin.liu/.ssh/id_ed25519.pub
+	signingkey = ~/.ssh/id_ed25519.pub
+	email = liu.benjamin@gmail.com
 [branch]
 	sort = -committerdate
-[core]
-    pager = delta
-    preloadIndex = true
-    untrackedCache = true
 [interactive]
-    diffFilter = delta --color-only
+	diffFilter = delta --color-only
 [delta]
-    navigate = true
-    side-by-side = true
-    line-numbers = true
-    syntax-theme = Catppuccin Macchiato
+	navigate = true
+	side-by-side = true
+	line-numbers = true
+	syntax-theme = Catppuccin Macchiato
 [diff]
-    colorMoved = default
-    algorithm = histogram
-[gc]
-	auto = 0
+	colorMoved = default
+	algorithm = histogram
+	renameLimit = 999999
 [commit]
 	gpgsign = true
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
 [pack]
 	threads = 6
 [help]
-	autocorrect = 10
+	autocorrect = prompt
 [rebase]
 	autosquash = true
 	updateRefs = true
+	instructionFormat = (%an <%ae>) %s
+[credential]
+	provider = generic
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 [fetch]
 	prune = true
-[rerere]
-	enabled = true
+	pruneTags = true
+	all = true
 [feature]
 	manyFiles = true
+[http]
+	postBuffer = 157286400
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
