@@ -66,8 +66,12 @@ kil() {
     fi
 }
 
-# cd wrapper with zoxide
+# cd wrapper with zoxide (falls back to builtin if zoxide not initialized)
 cd() {
+    if ! typeset -f __zoxide_z > /dev/null; then
+        builtin cd "$@"
+        return
+    fi
     if [[ $# -eq 0 ]]; then
         z
     elif [[ $# -eq 1 && -f "$1" ]]; then
