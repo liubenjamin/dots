@@ -16,6 +16,8 @@
 !.config/iterm2/iTerm2 State.itermexport
 !.config/jj/
 !.config/jj/config.toml
+!.config/karabiner/
+!.config/karabiner/karabiner.json
 !.config/kitty/
 !.config/kitty/kitty.conf
 !.config/linearmouse/
@@ -45,6 +47,7 @@
 
 !bin/
 !bin/install-dots.sh
+!bin/pointer-size.swift
 
 !userChrome.css
 !README.md
