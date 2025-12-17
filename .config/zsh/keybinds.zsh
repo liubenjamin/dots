@@ -76,3 +76,7 @@ smart_yank_widget() {
 }
 zle -N smart_yank_widget
 bindkey '^U' smart_yank_widget
+
+# History navigation (must be at end to override async plugin interference)
+bindkey '^P' up-line-or-history
+bindkey '^N' down-line-or-history

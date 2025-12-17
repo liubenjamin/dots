@@ -132,8 +132,3 @@ ck() {
     local cmd=$(cmd-k "$@")
     print -z "$cmd"
 }
-
-# Lazy load pyenv
-load_pyenv() {
-    eval "$(pyenv init -)"
-}

@@ -50,7 +50,7 @@ elif [[ -d $realpath ]]; then
   eza -1 --color=always --icons=always $realpath
 fi'
 
-zstyle ':fzf-tab:complete:*:*' fzf-flags --preview-window=right:60%:wrap --info=inline --border=rounded
+zstyle ':fzf-tab:complete:*:*' fzf-flags --preview-window=right:60%:wrap --height=~80% --info=inline --border=rounded
 
 # ls/eza completions
 zstyle ':fzf-tab:complete:(ls|eza|\\ls|\\eza):*' fzf-preview '
@@ -66,6 +66,11 @@ fi'
 
 # Environment variable preview
 zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ${(P)word}'
+
+# Disable "/" trigger for branch name completions
+zstyle ':fzf-tab:complete:git-switch:*' continuous-trigger ''
+zstyle ':fzf-tab:complete:jj-git-push:*' continuous-trigger ''
+zstyle ':fzf-tab:complete:jj:*' continuous-trigger ''
 
 # gt (graphite) completions
 _gt_yargs_completions() {

@@ -115,6 +115,13 @@ alias ktx='kubectx'
 alias kctx='kubectx'
 alias kx='f() { [ "$1" ] && kubectl config use-context $1 || kubectl config current-context ; } ; f'
 alias kn='f() { [ "$1" ] && kubectl config set-context --current --namespace $1 || kubectl config view --minify | grep namespace | cut -d" " -f6 ; } ; f'
+kgete() {
+  if [ $# -eq 0 ]; then
+    echo "Hint: use --field-selector involvedObject.name=<pod name>"
+    return 1
+  fi
+  kubectl get events -o custom-columns=TIME:.lastTimestamp,TYPE:.type,REASON:.reason,MESSAGE:.message "$@"
+}
 
 # General
 alias targets='make -qp | awk -F'\'':'\'' '\''/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}'\'' | sort -u'

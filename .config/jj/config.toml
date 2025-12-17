@@ -70,12 +70,12 @@ gh pr view --web "$(jj bookmark list -r 'closest_bookmark('$ref')' -T 'name')"
 """, ""]
 
 du = ["util", "exec", "--", "bash", "-c", """
-bookmark=$(jj bookmark list -r @ -T 'name ++ "\n"' | head -1)
+bookmark=$(jj bookmark list -r 'closest_bookmark(@)' -T 'name ++ "\n"' | head -1)
 echo "$bookmark"
 jj diff -t @ -f "$bookmark@origin"
 """, ""]
 du- = ["util", "exec", "--", "bash", "-c", """
-bookmark=$(jj bookmark list -r @- -T 'name ++ "\n"' | head -1)
+bookmark=$(jj bookmark list -r 'closest_bookmark(@-)' -T 'name ++ "\n"' | head -1)
 echo "$bookmark"
 jj diff -t @- -f "$bookmark@origin"
 """, ""]

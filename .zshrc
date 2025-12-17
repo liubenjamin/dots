@@ -8,6 +8,9 @@ fi
 # p10k theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Shell options
+setopt globdots  # Include hidden files in tab completion
+
 # Load homebrew shell variables
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
