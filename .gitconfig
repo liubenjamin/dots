@@ -57,9 +57,8 @@
 	instructionFormat = (%an <%ae>) %s
 [credential]
 	provider = generic
+	helper = 
 	helper = /usr/local/share/gcm-core/git-credential-manager
-[credential "https://dev.azure.com"]
-	useHttpPath = true
 [fetch]
 	prune = true
 	pruneTags = true
@@ -73,3 +72,7 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[index]
+	version = 4
+[credential "https://dev.azure.com"]
+	useHttpPath = true
