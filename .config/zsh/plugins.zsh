@@ -71,6 +71,8 @@ zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|
 zstyle ':fzf-tab:complete:git-switch:*' continuous-trigger ''
 zstyle ':fzf-tab:complete:jj-git-push:*' continuous-trigger ''
 zstyle ':fzf-tab:complete:jj:*' continuous-trigger ''
+zstyle ':fzf-tab:complete:gh*:*' continuous-trigger ''
+zstyle ':fzf-tab:complete:bzl:*' continuous-trigger ''
 
 # gt (graphite) completions
 _gt_yargs_completions() {

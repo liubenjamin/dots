@@ -36,8 +36,9 @@ open_branch_compare() {
     if [[ -n $url ]]; then
         url=${url%.git}
         url=$(echo $url | sed 's|^git@\([^:]*\):\(.*\)$|https://\1/\2|')
-        local first_desc=$(jj log -r 'roots(trunk()..@)' -T 'description.first_line()' --no-graph 2>/dev/null | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
-        local date=$(jj log -r @ -T 'committer.timestamp().format("%m-%d")' --no-graph 2>/dev/null)
+        local root_rev='roots(trunk()..@)'
+        local first_desc=$(jj log -r "$root_rev" -T 'description.first_line()' --no-graph 2>/dev/null | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+        local date=$(jj log -r "$root_rev" -T 'committer.timestamp().format("%m-%d")' --no-graph 2>/dev/null)
         local branch="benjamin.liu/${date}/${first_desc}"
         open "${url}/compare/${branch}?expand=1"
         zle redisplay
@@ -76,6 +77,9 @@ smart_yank_widget() {
 }
 zle -N smart_yank_widget
 bindkey '^U' smart_yank_widget
+
+# Ctrl Z to undo in zsh
+bindkey '^Z' undo
 
 # History navigation (must be at end to override async plugin interference)
 bindkey '^P' up-line-or-history
