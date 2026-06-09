@@ -3,11 +3,12 @@
 auto-update-channel = tip
 cursor-style = bar
 font-family = IosevkaTerm Nerd Font Mono
-font-size = 14
+font-size = 16
 macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 theme = argonaut
-theme = catppuccin-macchiato.conf
+theme = Catppuccin Macchiato
+# theme = Catppuccin Latte
 window-height=200
 window-padding-x = 15
 window-padding-y = 15
@@ -24,3 +25,8 @@ keybind = alt+super+k=goto_split:top
 keybind = alt+super+l=goto_split:right
 keybind = alt+super+n=next_tab
 keybind = alt+super+p=previous_tab
+keybind = global:super+ctrl+t=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-size = 40%
+quick-terminal-autohide = true
+bell-features = system
