@@ -15,33 +15,73 @@ git_push_bookmark = '"benjamin.liu/" ++ committer.timestamp().format("%m-%d") ++
 
 [aliases]
 setb = ["util", "exec", "--", "bash", "-c", """
-  first_desc=$(jj log -r 'roots(trunk()..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  first_desc=$(jj log -r 'roots(closest_bookmark(@-)..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
   bookmark="benjamin.liu/$(jj log -r @ -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
   jj bookmark set "$bookmark" --allow-backwards
   echo "Set bookmark: $bookmark"
   """, ""]
 pushb = ["util", "exec", "--", "bash", "-c", """
-  first_desc=$(jj log -r 'roots(trunk()..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  first_desc=$(jj log -r 'roots(closest_bookmark(@-)..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
   bookmark="benjamin.liu/$(jj log -r @ -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
   jj bookmark set "$bookmark" --allow-backwards
-  jj git push --bookmark "$bookmark" --allow-new
+  jj git push --bookmark "$bookmark"
+  """, ""]
+pb = ["util", "exec", "--", "bash", "-c", """
+  first_desc=$(jj log -r 'roots(closest_bookmark(@-)..@)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  bookmark="benjamin.liu/$(jj log -r @ -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
+  jj bookmark set "$bookmark" --allow-backwards
+  jj git push --bookmark "$bookmark"
+  """, ""]
+pbr = ["util", "exec", "--", "bash", "-c", """
+  rev="${1:-@}"
+  first_desc=$(jj log -r "roots(closest_bookmark(($rev)-)..($rev))" -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  bookmark="benjamin.liu/$(jj log -r "$rev" -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
+  jj bookmark set "$bookmark" -r "$rev" --allow-backwards
+  jj git push --bookmark "$bookmark"
   """, ""]
 setb- = ["util", "exec", "--", "bash", "-c", """
-  first_desc=$(jj log -r 'roots(trunk()..@-)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  first_desc=$(jj log -r 'roots(closest_bookmark(@--)..@-)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
   bookmark="benjamin.liu/$(jj log -r @- -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
   jj bookmark set "$bookmark" -r @- --allow-backwards
   echo "Set bookmark: $bookmark"
   """, ""]
 pushb- = ["util", "exec", "--", "bash", "-c", """
-  first_desc=$(jj log -r 'roots(trunk()..@-)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+  first_desc=$(jj log -r 'roots(closest_bookmark(@--)..@-)' -T 'description.first_line()' --no-graph | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_-]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
   bookmark="benjamin.liu/$(jj log -r @- -T 'committer.timestamp().format("%m-%d")' --no-graph)/${first_desc}"
   jj bookmark set "$bookmark" -r @- --allow-backwards
-  jj git push --bookmark "$bookmark" --allow-new
+  jj git push --bookmark "$bookmark"
+  """, ""]
+prs = ["util", "exec", "--", "bash", "-c", """
+  set -euo pipefail
+  trunk_name=$(jj log -r 'trunk()' -T 'bookmarks.map(|b| b.name()).join("\n")' --no-graph | head -1)
+
+  # Push all bookmarks in the stack
+  jj git push -r 'trunk()..@'
+
+  prev="$trunk_name"
+
+  # Iterate bookmarked commits bottom-to-top
+  jj log -r '(trunk()..@) & bookmarks()' --reversed --no-graph -T 'bookmarks.map(|b| b.name()).join("\n") ++ "\n"' | while IFS= read -r bm; do
+    [ -z "$bm" ] && continue
+    title=$(jj log -r "$bm" -T 'description.first_line()' --no-graph)
+
+    pr_state=$(gh pr view "$bm" --json state -q '.state' 2>/dev/null || echo "")
+    if [ "$pr_state" = "MERGED" ]; then
+      echo "[skip] $bm (merged)"
+    elif [ "$pr_state" = "OPEN" ]; then
+      echo "[exists] $bm (base: $prev)"
+      gh pr edit "$bm" --base "$prev"
+      prev="$bm"
+    else
+      echo "[create] $bm -> $prev"
+      gh pr create --head "$bm" --base "$prev" --title "$title" --body "" --draft
+      prev="$bm"
+    fi
+  done
   """, ""]
 bm = ['bookmark', 'move']
 nodesc = ['log', '-r', 'description(exact:"")']
 fetch = ['git', 'fetch', '--tracked']
-l = ["--no-pager", "log", "-r", "@ | trunk() | (((trunk()..@):: | (trunk()..@)-) & ~empty()) | (trunk()..(mine() & bookmarks() & ~trunk()))::"]
 mine = ["bookmark", "list", "-r", "mine()"]
 mog = ['new', '@', 'green', '-m', 'merge origin/green']
 push = ['git', 'push', '-r', '@']
@@ -49,8 +89,6 @@ pushc = ['git', 'push', '-c', '@']
 push- = ['git', 'push', '-r', '@-']
 pushc- = ['git', 'push', '-c', '@-']
 restack = ['rebase', '--skip-emptied', '-s', 'roots(immutable_heads()..@)', '-d', 'trunk()']
-# tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@"]
-# tug- = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
 tug = ["bookmark", "move", "--from", "heads(::@- & (bookmarks() ~ trunk()))", "--to", "@"]
 tug- = ["bookmark", "move", "--from", "heads(::@- & (bookmarks() ~ trunk()))", "--to", "@-"]
 sync = ["util", "exec", "--", "bash", "-c", """
@@ -63,10 +101,34 @@ jj restack
 
 newt = ['new', 'trunk()']
 
-# open pr for nearest bookmark
+# merge origin/master into nearest bookmark (like git merge origin/master)
+mom = ["util", "exec", "--", "bash", "-c", """
+bookmark=$(jj bookmark list -r 'closest_bookmark(@-)' -T 'name ++ "\n"' | head -1)
+if [ -z "$bookmark" ]; then
+  echo "No bookmark found in ancestry of @-"
+  exit 1
+fi
+jj new "$bookmark" 'trunk()' -m "jj mom"
+""", ""]
+
+# open pr for nearest bookmark, create if doesn't exist
 pr = ["util", "exec", "--", "bash", "-c", """
 ref=${1:-@-}
-gh pr view --web "$(jj bookmark list -r 'closest_bookmark('$ref')' -T 'name')"
+bookmark=$(jj bookmark list -r "closest_bookmark($ref)" -T 'name ++ "\n"' | head -1)
+if gh pr view "$bookmark" > /dev/null 2>&1; then
+  gh pr view --web "$bookmark"
+else
+  gh pr create --web --head "$bookmark"
+fi
+""", ""]
+
+# open github compare page for bookmark
+compare = ["util", "exec", "--", "bash", "-c", """
+ref=${1:-@-}
+bookmark=$(jj bookmark list -r "closest_bookmark($ref)" -T 'name ++ "\n"' | head -1)
+repo_url=$(git remote get-url origin | sed 's/\\.git$//' | sed 's|git@github.com:|https://github.com/|')
+trunk=$(jj log -r 'trunk()' -T 'bookmarks.map(|b| b.name()).join("\n")' --no-graph | sort -u | head -1)
+open "${repo_url}/compare/${trunk}...${bookmark}"
 """, ""]
 
 du = ["util", "exec", "--", "bash", "-c", """
@@ -100,5 +162,18 @@ edit = true
 [revsets]
 # Prioritize the current bookmark
 # short-prefixes = "(trunk()..@)::"
-# log = '@ | ancestors(trunk()..(visible_heads() & mine()), 2) | trunk()'
-log = '@ | trunk() | (((trunk()..@):: | (trunk()..@)-) & ~empty()) | (trunk()..(mine() & bookmarks() & ~trunk()))::'
+log = 'trunk()..@ | @:: | trunk() | trunk()..((mine() | bookmarks(glob:"benjamin.liu/*")) & ~description(exact:"") & committer_date(after:"30 days ago") & ~trunk())'
+
+[snapshot]
+max-new-file-size = 0
+auto-update-stale = true
+
+[fsmonitor]
+backend = "watchman"
+
+[fsmonitor.watchman]
+register-snapshot-trigger = false
+
+[remotes.origin]
+auto-track-bookmarks = "benjamin.liu/*"
+
