@@ -1,9 +1,11 @@
 # background-opacity = 0.82
 # background-blur-radius = 22
 auto-update-channel = tip
-cursor-style = bar
+cursor-style = block
 font-family = IosevkaTerm Nerd Font Mono
+font-style = Light
 font-size = 16
+# adjust-cell-width = -5%
 macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 theme = argonaut
@@ -17,7 +19,7 @@ window-width=200
 keybind = super+enter=ignore
 keybind = super+ctrl+f=ignore
 scrollback-limit = 1000000000
-split-divider-color = ffffff
+split-divider-color = #ffffff
 keybind = shift+enter=text:\n
 keybind = alt+super+h=goto_split:left
 keybind = alt+super+j=goto_split:bottom
@@ -26,6 +28,7 @@ keybind = alt+super+l=goto_split:right
 keybind = alt+super+n=next_tab
 keybind = alt+super+p=previous_tab
 keybind = global:super+ctrl+t=toggle_quick_terminal
+keybind = alt+backspace=text:\x1b\x7f
 quick-terminal-position = top
 quick-terminal-size = 40%
 quick-terminal-autohide = true
