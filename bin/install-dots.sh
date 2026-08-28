@@ -2,7 +2,7 @@
 # dotfiles installer - clone bare repo and checkout to $HOME
 #
 # usage:
-#   curl -fsSL https://raw.githubusercontent.com/liubenjamin/dots/main/bin/install-dots.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/liubenjamin/dots/master/bin/install-dots.sh | bash
 #
 # or manually:
 #   git clone --bare git@github.com:liubenjamin/dots.git ~/src/dots

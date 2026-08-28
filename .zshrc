@@ -8,6 +8,14 @@ fi
 # p10k theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Avoid Powerlevel10k's fallback `who` process while preserving SSH detection.
+if [[ -n "$SSH_CLIENT$SSH_TTY$SSH_CONNECTION" ]]; then
+    typeset -gix P9K_SSH=1
+else
+    typeset -gix P9K_SSH=0
+fi
+typeset -gx _P9K_SSH_TTY="$TTY"
+
 # Shell options
 setopt globdots  # Include hidden files in tab completion
 
@@ -28,12 +36,15 @@ if (( ${#_zcompdump_files} )); then
 else
     compinit -d "$_zcompdump"
 fi
+if [[ -s "$_zcompdump" && ( ! -e "$_zcompdump.zwc" || "$_zcompdump" -nt "$_zcompdump.zwc" ) ]]; then
+    zcompile "$_zcompdump" 2>/dev/null
+fi
 unset _zcompdump _zcompdump_files
 
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+if [[ ! -r "$HOME/.local/share/zinit/zinit.git/zinit.zsh" ]]; then
     print -P "%F{33} %F{220}Installing zinit...%f"
     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" || return 1
 fi
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
@@ -82,3 +93,5 @@ for module in exports plugins aliases functions keybinds work; do
     [[ -f "$HOME/.config/zsh/${module}.zsh" ]] && source "$HOME/.config/zsh/${module}.zsh"
 done
 
+# Tool setup may modify PATH through scalar assignments. Normalize once at the end
+path=("${(@)path:#.}")

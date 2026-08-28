@@ -132,3 +132,8 @@ ck() {
     local cmd=$(cmd-k "$@")
     print -z "$cmd"
 }
+
+# Run Pi with startup network operations enabled for explicit updates/refreshes.
+pi-online() {
+    env -u PI_OFFLINE pi "$@"
+}

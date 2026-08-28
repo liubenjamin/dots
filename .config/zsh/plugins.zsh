@@ -1,8 +1,6 @@
 # ~/.config/zsh/plugins.zsh - Zinit, completions, fzf-tab
 
 # Zinit plugins
-zinit load mafredri/zsh-async
-
 zinit ice wait"1" lucid
 zinit snippet OMZ::plugins/kubectl/kubectl.plugin.zsh
 

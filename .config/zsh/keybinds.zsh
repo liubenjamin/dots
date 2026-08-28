@@ -10,6 +10,14 @@ bindkey -M vicmd v edit-command-line
 # Vi mode escape (atuin compatibility)
 bindkey "^[[91;5u" vi-cmd-mode
 
+# Option+Backspace may arrive as Escape followed by Delete or Backspace.
+# Bind the full sequence so Escape does not switch vi insert mode to command mode.
+for keymap in emacs viins; do
+    bindkey -M "$keymap" $'\e\x7f' backward-kill-word
+    bindkey -M "$keymap" $'\e\x08' backward-kill-word
+done
+unset keymap
+
 # Copy current command to clipboard
 cmd_to_clip() { print -rn -- "$BUFFER" | pbcopy }
 zle -N cmd_to_clip
@@ -81,6 +89,6 @@ bindkey '^U' smart_yank_widget
 # Ctrl Z to undo in zsh
 bindkey '^Z' undo
 
-# History navigation (must be at end to override async plugin interference)
+# History navigation
 bindkey '^P' up-line-or-history
 bindkey '^N' down-line-or-history
