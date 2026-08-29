@@ -3,9 +3,10 @@
 auto-update-channel = tip
 cursor-style = block
 font-family = IosevkaTerm Nerd Font Mono
-font-style = Light
-font-size = 16
+font-style = Regular
+font-size = 15
 # adjust-cell-width = -5%
+adjust-cell-height = 4%
 macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 theme = argonaut
@@ -19,7 +20,7 @@ window-width=200
 keybind = super+enter=ignore
 keybind = super+ctrl+f=ignore
 scrollback-limit = 1000000000
-split-divider-color = #ffffff
+split-divider-color = #6e738d
 keybind = shift+enter=text:\n
 keybind = alt+super+h=goto_split:left
 keybind = alt+super+j=goto_split:bottom
