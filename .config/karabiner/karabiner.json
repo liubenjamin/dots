@@ -28,6 +28,34 @@
                         ]
                     },
                     {
+                        "description": "Hide Google Chrome when its Raycast hotkey is pressed while Chrome is frontmost",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.google\\.Chrome$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "1",
+                                    "modifiers": {
+                                        "mandatory": ["command", "control"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": ["command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Map Ctrl+N to Down Arrow and Ctrl+P to Up Arrow in Slack (Wildcard Bundle ID)",
                         "manipulators": [
                             {
