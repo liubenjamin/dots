@@ -137,3 +137,87 @@ ck() {
 pi-online() {
     env -u PI_OFFLINE pi "$@"
 }
+
+# Return a stable color only for hosts with a key already trusted in known_hosts.
+_ssh_trusted_host_color() {
+    emulate -L zsh
+    local config field value hostname port hostkeyalias files lookup file fingerprint
+    config=$(command ssh -G "$@" 2>/dev/null) || return 1
+    while read -r field value; do
+        case $field in
+            hostname) hostname=$value ;;
+            port) port=$value ;;
+            hostkeyalias) hostkeyalias=$value ;;
+            userknownhostsfile) files=$value ;;
+        esac
+    done <<< "$config"
+    [[ -n $hostname && -n $port && -n $files ]] || return 1
+    lookup=${hostkeyalias:-$hostname}
+    [[ $port == 22 || -n $hostkeyalias ]] || lookup="[$hostname]:$port"
+    for file in ${(z)files}; do
+        [[ -f $file ]] || continue
+        fingerprint=$(command ssh-keygen -F "$lookup" -l -f "$file" 2>/dev/null | awk '
+            $3 ~ /^SHA256:/ {
+                rank = $2 == "ED25519" ? 3 : ($2 == "ECDSA" ? 2 : ($2 == "RSA" ? 1 : 0))
+                if (rank > best) { best = rank; fingerprint = $3 }
+            }
+            END { if (best) print fingerprint }
+        ')
+        [[ -n $fingerprint ]] && break
+    done
+    [[ -n $fingerprint ]] || return 1
+    command python3 -c '
+import base64, colorsys, sys
+bucket = base64.b64decode(sys.argv[1].removeprefix("SHA256:") + "=")[0] >> 3
+rgb = colorsys.hls_to_rgb(bucket / 32, 0.14, 0.38)
+print("#%02x%02x%02x" % tuple(round(v * 255) for v in rgb))
+    ' "$fingerprint" 2>/dev/null
+}
+
+## Tint a Ghostty tab while SSH is running, using a key already trusted in known_hosts.
+ssh() {
+    emulate -L zsh
+    local color
+    [[ -t 0 && -t 1 && $TERM_PROGRAM == ghostty ]] || { command ssh "$@"; return $?; }
+    color=$(_ssh_trusted_host_color "$@") || { command ssh "$@"; return $?; }
+    [[ -n $color ]] || { command ssh "$@"; return $?; }
+    if printf '\e]11;%s\e\\' "$color" > /dev/tty; then
+        {
+            command ssh "$@"
+        } always {
+            printf '\e]111\e\\' > /dev/tty
+        }
+        return $?
+    fi
+    command ssh "$@"
+}
+
+# Give a remote Herdr session the same host color as SSH; leave local sessions alone.
+herdr() {
+    emulate -L zsh
+    local remote color arg awaiting_remote=0
+    [[ -t 0 && -t 1 && $TERM_PROGRAM == ghostty ]] || { command herdr "$@"; return $?; }
+    for arg in "$@"; do
+        if (( awaiting_remote )); then
+            remote=$arg
+            awaiting_remote=0
+            continue
+        fi
+        case $arg in
+            --remote) awaiting_remote=1 ;;
+            --remote=*) remote=${arg#--remote=} ;;
+            --) break ;;
+        esac
+    done
+    [[ -n $remote ]] || { command herdr "$@"; return $?; }
+    color=$(_ssh_trusted_host_color "$remote") || { command herdr "$@"; return $?; }
+    if printf '\e]11;%s\e\\' "$color" > /dev/tty; then
+        {
+            command herdr "$@"
+        } always {
+            printf '\e]111\e\\' > /dev/tty
+        }
+        return $?
+    fi
+    command herdr "$@"
+}
