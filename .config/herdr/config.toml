@@ -1,0 +1,46 @@
+onboarding = false
+
+[theme.custom]
+overlay0 = "#ffffff"
+subtext0 = "#f5f5f5"
+text = "#ffffff"
+surface_dim = "#89b4fa"
+
+selection_bg = "#585b70"
+active_row_bg = "#585b70"
+[keys]
+prefix = "ctrl+a"
+previous_agent = "alt+["
+next_agent = "alt+]"
+remote_image_paste = "ctrl+v"
+
+[[keys.command]]
+key = "prefix+a"
+type = "shell"
+command = '''
+tab=$(herdr tab create --workspace "$HERDR_ACTIVE_WORKSPACE_ID" --cwd "$HERDR_ACTIVE_PANE_CWD" --focus)
+pane=$(printf '%s\n' "$tab" | jq -r '.result.root_pane.pane_id')
+# Ghostty's XPC_FLAGS=0x2 breaks Node DNS (Pi then reports "Connection error").
+herdr pane run "$pane" 'env -u XPC_FLAGS pi'
+'''
+description = "new tab with pi"
+
+[ui]
+agent_panel_sort = "spaces"
+sidebar_width = 44
+sidebar_max_width = 52
+
+show_agent_labels_on_pane_borders = true
+[ui.sidebar.agents]
+row_gap = 1
+rows = [
+	["state_icon", { token = "$prompt_draft", fg = "#f9e2af", dim = false }, { token = "$session_title", fg = "#ffffff", dim = false }],
+	[{ token = "$pull_requests_open", fg = "#3fb950", dim = false }],
+	[{ token = "$pull_requests_merged", fg = "#a371f7", dim = false }],
+	[{ token = "$pull_requests_draft", fg = "#848d97", dim = false }],
+	[{ token = "$pull_requests_closed", fg = "#f85149", dim = false }],
+	[{ token = "$pull_requests_unknown", fg = "#848d97", dim = false }],
+]
+
+[experimental]
+kitty_graphics = true

@@ -10,6 +10,8 @@
 !.config/ghostty/config
 !.config/ghostty/themes/
 !.config/ghostty/themes/catppuccin-macchiato.conf
+!.config/herdr/
+!.config/herdr/config.toml
 !.config/i3/
 !.config/i3/config
 !.config/iterm2/
