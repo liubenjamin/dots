@@ -1,0 +1,1044 @@
+{
+  "currentHost": {
+    "NSGlobalDomain": {
+      "NSStatusItemSelectionPadding": 4,
+      "NSStatusItemSpacing": 5,
+      "com.apple.keyboard.modifiermapping.0-0-0": [
+        {
+          "HIDKeyboardModifierMappingDst": 30064771300,
+          "HIDKeyboardModifierMappingSrc": 30064771129
+        }
+      ],
+      "com.apple.mouse.tapBehavior": 1,
+      "com.apple.trackpad.enableSecondaryClick": true,
+      "com.apple.trackpad.fiveFingerPinchSwipeGesture": 2,
+      "com.apple.trackpad.fourFingerHorizSwipeGesture": 2,
+      "com.apple.trackpad.fourFingerPinchSwipeGesture": 2,
+      "com.apple.trackpad.fourFingerVertSwipeGesture": 2,
+      "com.apple.trackpad.momentumScroll": true,
+      "com.apple.trackpad.pinchGesture": true,
+      "com.apple.trackpad.rotateGesture": true,
+      "com.apple.trackpad.scrollBehavior": 2,
+      "com.apple.trackpad.threeFingerDragGesture": false,
+      "com.apple.trackpad.threeFingerHorizSwipeGesture": 2,
+      "com.apple.trackpad.threeFingerTapGesture": 0,
+      "com.apple.trackpad.threeFingerVertSwipeGesture": 2,
+      "com.apple.trackpad.twoFingerDoubleTapGesture": 1,
+      "com.apple.trackpad.twoFingerFromRightEdgeSwipeGesture": 3
+    },
+    "com.apple.controlcenter": {
+      "Bluetooth": 24,
+      "FocusModes": 8,
+      "NowPlaying": 8
+    }
+  },
+  "user": {
+    "NSGlobalDomain": {
+      "AppleAntiAliasingThreshold": 4,
+      "AppleICUForce24HourTime": true,
+      "AppleLanguages": [
+        "en-US"
+      ],
+      "AppleLocale": "en_US",
+      "AppleMiniaturizeOnDoubleClick": false,
+      "ApplePressAndHoldEnabled": false,
+      "AppleShowAllExtensions": true,
+      "InitialKeyRepeat": 12,
+      "KB_DoubleQuoteOption": "“abc”",
+      "KB_SingleQuoteOption": "‘abc’",
+      "KB_SpellingLanguage": {
+        "KB_SpellingLanguageIsAutomatic": true
+      },
+      "KeyRepeat": 1,
+      "NSAutomaticCapitalizationEnabled": false,
+      "NSAutomaticPeriodSubstitutionEnabled": true,
+      "NSAutomaticSpellingCorrectionEnabled": false,
+      "NSGlassDiffusionSetting": true,
+      "NSMenuEnableActionImages": false,
+      "NSQuitAlwaysKeepsWindows": false,
+      "NSUserKeyEquivalents": {
+        "Minimize": "@~^$m",
+        "Minimize All": "@^$m"
+      },
+      "NSUserQuotesArray": [
+        "“",
+        "”",
+        "‘",
+        "’"
+      ],
+      "NSWindowShouldDragOnGesture": true,
+      "WebAutomaticSpellingCorrectionEnabled": false,
+      "com.apple.mouse.linear": true,
+      "com.apple.mouse.scaling": 0.875,
+      "com.apple.sound.beep.flash": 0,
+      "com.apple.springing.delay": 0.5,
+      "com.apple.springing.enabled": true,
+      "com.apple.swipescrolldirection": false,
+      "com.apple.trackpad.forceClick": true,
+      "com.apple.trackpad.scaling": 3.0
+    },
+    "com.apple.Accessibility": {
+      "AXSClassicInvertColorsPreference": 0,
+      "ButtonShapesEnabled": 0,
+      "DarkenSystemColors": 0,
+      "DifferentiateWithoutColor": 0,
+      "EnhancedBackgroundContrastEnabled": 0,
+      "FullKeyboardAccessEnabled": 0,
+      "FullKeyboardAccessFocusRingEnabled": 1,
+      "GrayscaleDisplay": 0,
+      "InvertColorsEnabled": 0,
+      "KeyRepeatDelay": 0.2,
+      "KeyRepeatEnabled": 1,
+      "KeyRepeatInterval": 0.016666666,
+      "ReduceMotionEnabled": 0
+    },
+    "com.apple.AppleMultitouchMouse": {
+      "MouseButtonDivision": 55,
+      "MouseButtonMode": "OneButton",
+      "MouseHorizontalScroll": true,
+      "MouseMomentumScroll": true,
+      "MouseOneFingerDoubleTapGesture": 0,
+      "MouseTwoFingerDoubleTapGesture": 3,
+      "MouseTwoFingerHorizSwipeGesture": 2,
+      "MouseVerticalScroll": true
+    },
+    "com.apple.AppleMultitouchTrackpad": {
+      "ActuateDetents": 1,
+      "Clicking": true,
+      "DragLock": false,
+      "Dragging": false,
+      "FirstClickThreshold": 0,
+      "ForceSuppressed": true,
+      "SecondClickThreshold": 0,
+      "TrackpadCornerSecondaryClick": 2,
+      "TrackpadFiveFingerPinchGesture": 2,
+      "TrackpadFourFingerHorizSwipeGesture": 2,
+      "TrackpadFourFingerPinchGesture": 2,
+      "TrackpadFourFingerVertSwipeGesture": 2,
+      "TrackpadHandResting": true,
+      "TrackpadHorizScroll": 1,
+      "TrackpadMomentumScroll": true,
+      "TrackpadPinch": 1,
+      "TrackpadRightClick": false,
+      "TrackpadRotate": 1,
+      "TrackpadScroll": true,
+      "TrackpadThreeFingerDrag": false,
+      "TrackpadThreeFingerHorizSwipeGesture": 2,
+      "TrackpadThreeFingerTapGesture": 0,
+      "TrackpadThreeFingerVertSwipeGesture": 2,
+      "TrackpadTwoFingerDoubleTapGesture": 1,
+      "TrackpadTwoFingerFromRightEdgeSwipeGesture": 3,
+      "USBMouseStopsTrackpad": 0
+    },
+    "com.apple.HIToolbox": {
+      "AppleCurrentKeyboardLayoutInputSourceID": "com.apple.keylayout.US",
+      "AppleEnabledInputSources": [
+        {
+          "InputSourceKind": "Keyboard Layout",
+          "KeyboardLayout ID": 0,
+          "KeyboardLayout Name": "U.S."
+        },
+        {
+          "Bundle ID": "com.apple.CharacterPaletteIM",
+          "InputSourceKind": "Non Keyboard Input Method"
+        }
+      ],
+      "AppleSelectedInputSources": [
+        {
+          "InputSourceKind": "Keyboard Layout",
+          "KeyboardLayout ID": 0,
+          "KeyboardLayout Name": "U.S."
+        }
+      ]
+    },
+    "com.apple.WindowManager": {
+      "AppWindowGroupingBehavior": 1,
+      "AutoHide": false,
+      "EnableStandardClickToShowDesktop": false,
+      "EnableTiledWindowMargins": false,
+      "EnableTilingByEdgeDrag": false,
+      "EnableTilingOptionAccelerator": false,
+      "EnableTopTilingByEdgeDrag": false,
+      "HideDesktop": true,
+      "StageManagerHideWidgets": false,
+      "StandardHideWidgets": false
+    },
+    "com.apple.controlcenter": {
+      "NSStatusItem Preferred Position Battery": 201.0,
+      "NSStatusItem Preferred Position BentoBox-0": 149.0,
+      "NSStatusItem Preferred Position Bluetooth": 180.0,
+      "NSStatusItem Preferred Position WiFi": 232.0,
+      "NSStatusItem VisibleCC Battery": true,
+      "NSStatusItem VisibleCC BentoBox-0": true,
+      "NSStatusItem VisibleCC Bluetooth": true,
+      "NSStatusItem VisibleCC Clock": true,
+      "NSStatusItem VisibleCC WiFi": true
+    },
+    "com.apple.desktopservices": {
+      "DSDontWriteNetworkStores": true,
+      "DSDontWriteUSBStores": true
+    },
+    "com.apple.dock": {
+      "autohide": true,
+      "expose-group-apps": true,
+      "launchanim": false,
+      "magnification": false,
+      "mineffect": "scale",
+      "orientation": "left",
+      "show-recents": false,
+      "tilesize": 16.0,
+      "wvous-bl-corner": 1,
+      "wvous-bl-modifier": 0,
+      "wvous-br-corner": 1,
+      "wvous-br-modifier": 0,
+      "wvous-tl-corner": 1,
+      "wvous-tl-modifier": 0,
+      "wvous-tr-corner": 1,
+      "wvous-tr-modifier": 0
+    },
+    "com.apple.driver.AppleBluetoothMultitouch.mouse": {
+      "MouseButtonDivision": 55,
+      "MouseButtonMode": "OneButton",
+      "MouseHorizontalScroll": true,
+      "MouseMomentumScroll": true,
+      "MouseOneFingerDoubleTapGesture": 0,
+      "MouseTwoFingerDoubleTapGesture": 3,
+      "MouseTwoFingerHorizSwipeGesture": 2,
+      "MouseVerticalScroll": true
+    },
+    "com.apple.driver.AppleBluetoothMultitouch.trackpad": {
+      "Clicking": true,
+      "DragLock": false,
+      "Dragging": false,
+      "TrackpadCornerSecondaryClick": 2,
+      "TrackpadFiveFingerPinchGesture": 2,
+      "TrackpadFourFingerHorizSwipeGesture": 2,
+      "TrackpadFourFingerPinchGesture": 2,
+      "TrackpadFourFingerVertSwipeGesture": 2,
+      "TrackpadHandResting": true,
+      "TrackpadHorizScroll": 1,
+      "TrackpadMomentumScroll": true,
+      "TrackpadPinch": 1,
+      "TrackpadRightClick": false,
+      "TrackpadRotate": 1,
+      "TrackpadScroll": true,
+      "TrackpadThreeFingerDrag": false,
+      "TrackpadThreeFingerHorizSwipeGesture": 2,
+      "TrackpadThreeFingerTapGesture": 0,
+      "TrackpadThreeFingerVertSwipeGesture": 2,
+      "TrackpadTwoFingerDoubleTapGesture": 1,
+      "TrackpadTwoFingerFromRightEdgeSwipeGesture": 3,
+      "USBMouseStopsTrackpad": 0
+    },
+    "com.apple.finder": {
+      "AppleShowAllFiles": true,
+      "CreateDesktop": false,
+      "DesktopViewSettings": {
+        "IconViewSettings": {
+          "arrangeBy": "none",
+          "backgroundColorBlue": 1.0,
+          "backgroundColorGreen": 1.0,
+          "backgroundColorRed": 1.0,
+          "backgroundType": 0,
+          "gridOffsetX": 0.0,
+          "gridOffsetY": 0.0,
+          "gridSpacing": 54.0,
+          "iconSize": 64.0,
+          "labelOnBottom": true,
+          "showIconPreview": true,
+          "showItemInfo": false,
+          "textSize": 12.0,
+          "viewOptionsVersion": 1
+        }
+      },
+      "FK_AppCentricShowSidebar": true,
+      "FK_ArrangeBy": "Date Modified",
+      "FK_DefaultIconViewSettings": {
+        "arrangeBy": "name",
+        "backgroundColorBlue": 1.0,
+        "backgroundColorGreen": 1.0,
+        "backgroundColorRed": 1.0,
+        "backgroundType": 0,
+        "gridOffsetX": 0.0,
+        "gridOffsetY": 0.0,
+        "gridSpacing": 54.0,
+        "iconSize": 64.0,
+        "labelOnBottom": true,
+        "showIconPreview": true,
+        "showItemInfo": true,
+        "textSize": 12.0,
+        "viewOptionsVersion": 1
+      },
+      "FK_DefaultListViewSettings": {
+        "calculateAllSizes": false,
+        "columns": [
+          {
+            "ascending": true,
+            "identifier": "name",
+            "visible": true,
+            "width": 300
+          },
+          {
+            "ascending": false,
+            "identifier": "dateModified",
+            "visible": false,
+            "width": 181
+          },
+          {
+            "ascending": false,
+            "identifier": "dateCreated",
+            "visible": false,
+            "width": 181
+          },
+          {
+            "ascending": false,
+            "identifier": "size",
+            "visible": true,
+            "width": 97
+          },
+          {
+            "ascending": true,
+            "identifier": "kind",
+            "visible": true,
+            "width": 115
+          },
+          {
+            "ascending": true,
+            "identifier": "label",
+            "visible": false,
+            "width": 100
+          },
+          {
+            "ascending": true,
+            "identifier": "version",
+            "visible": false,
+            "width": 75
+          },
+          {
+            "ascending": true,
+            "identifier": "comments",
+            "visible": false,
+            "width": 300
+          },
+          {
+            "ascending": false,
+            "identifier": "dateLastOpened",
+            "visible": false,
+            "width": 200
+          },
+          {
+            "ascending": false,
+            "identifier": "shareOwner",
+            "visible": false,
+            "width": 200
+          },
+          {
+            "ascending": false,
+            "identifier": "shareLastEditor",
+            "visible": false,
+            "width": 200
+          },
+          {
+            "ascending": false,
+            "identifier": "dateAdded",
+            "visible": true,
+            "width": 181
+          }
+        ],
+        "iconSize": 16,
+        "showIconPreview": true,
+        "sortColumn": "dateAdded",
+        "textSize": 13,
+        "useRelativeDates": true,
+        "viewOptionsVersion": 1
+      },
+      "FK_SidebarWidth2": 159.0,
+      "FK_StandardViewSettings": {
+        "ExtendedListViewSettingsV2": {
+          "calculateAllSizes": false,
+          "columns": [
+            {
+              "ascending": true,
+              "identifier": "name",
+              "visible": true,
+              "width": 300
+            },
+            {
+              "ascending": false,
+              "identifier": "dateModified",
+              "visible": true,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "dateCreated",
+              "visible": false,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "size",
+              "visible": true,
+              "width": 97
+            },
+            {
+              "ascending": true,
+              "identifier": "kind",
+              "visible": true,
+              "width": 115
+            },
+            {
+              "ascending": true,
+              "identifier": "label",
+              "visible": false,
+              "width": 100
+            },
+            {
+              "ascending": true,
+              "identifier": "version",
+              "visible": false,
+              "width": 75
+            },
+            {
+              "ascending": true,
+              "identifier": "comments",
+              "visible": false,
+              "width": 300
+            },
+            {
+              "ascending": false,
+              "identifier": "dateLastOpened",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "shareOwner",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "shareLastEditor",
+              "visible": false,
+              "width": 200
+            }
+          ],
+          "iconSize": 16,
+          "showIconPreview": true,
+          "sortColumn": "name",
+          "textSize": 13,
+          "useRelativeDates": true,
+          "viewOptionsVersion": 1
+        },
+        "IconViewSettings": {
+          "arrangeBy": "none",
+          "backgroundColorBlue": 1.0,
+          "backgroundColorGreen": 1.0,
+          "backgroundColorRed": 1.0,
+          "backgroundType": 0,
+          "gridOffsetX": 0.0,
+          "gridOffsetY": 0.0,
+          "gridSpacing": 54.0,
+          "iconSize": 64.0,
+          "labelOnBottom": true,
+          "showIconPreview": true,
+          "showItemInfo": false,
+          "textSize": 12.0,
+          "viewOptionsVersion": 1
+        },
+        "ListViewSettings": {
+          "calculateAllSizes": false,
+          "columns": {
+            "comments": {
+              "ascending": true,
+              "index": 7,
+              "visible": false,
+              "width": 300
+            },
+            "dateCreated": {
+              "ascending": false,
+              "index": 2,
+              "visible": false,
+              "width": 181
+            },
+            "dateLastOpened": {
+              "ascending": false,
+              "index": 8,
+              "visible": false,
+              "width": 200
+            },
+            "dateModified": {
+              "ascending": false,
+              "index": 1,
+              "visible": true,
+              "width": 181
+            },
+            "kind": {
+              "ascending": true,
+              "index": 4,
+              "visible": true,
+              "width": 115
+            },
+            "label": {
+              "ascending": true,
+              "index": 5,
+              "visible": false,
+              "width": 100
+            },
+            "name": {
+              "ascending": true,
+              "index": 0,
+              "visible": true,
+              "width": 300
+            },
+            "size": {
+              "ascending": false,
+              "index": 3,
+              "visible": true,
+              "width": 97
+            },
+            "version": {
+              "ascending": true,
+              "index": 6,
+              "visible": false,
+              "width": 75
+            }
+          },
+          "iconSize": 16,
+          "showIconPreview": true,
+          "sortColumn": "name",
+          "textSize": 13,
+          "useRelativeDates": true,
+          "viewOptionsVersion": 1
+        },
+        "SettingsType": "FK_StandardViewSettings"
+      },
+      "FXArrangeGroupViewBy": "Name",
+      "FXDefaultSearchScope": "SCcf",
+      "FXEnableExtensionChangeWarning": true,
+      "FXPreferredGroupBy": "Date Added",
+      "FXPreferredViewStyle": "Nlsv",
+      "FXRemoveOldTrashItems": false,
+      "MeetingRoomViewSetting": {
+        "CustomViewStyleVersion": 1,
+        "WindowState": {
+          "ContainerShowSidebar": true,
+          "ShowSidebar": true,
+          "ShowStatusBar": true,
+          "ShowTabView": false,
+          "ShowToolbar": true,
+          "WindowBounds": "{{536, 222}, {920, 464}}"
+        }
+      },
+      "NewWindowTarget": "PfHm",
+      "RecentsArrangeGroupViewBy": "Date Last Opened",
+      "SearchRecentsViewSettings": {
+        "WindowState": {
+          "ContainerShowSidebar": true,
+          "ShowSidebar": true,
+          "ShowStatusBar": false,
+          "ShowTabView": false,
+          "ShowToolbar": true,
+          "WindowBounds": "{{529, 389}, {920, 492}}"
+        }
+      },
+      "ShowExternalHardDrivesOnDesktop": true,
+      "ShowHardDrivesOnDesktop": false,
+      "ShowPathbar": false,
+      "ShowRemovableMediaOnDesktop": true,
+      "ShowSidebar": false,
+      "ShowStatusBar": false,
+      "SidebarDevicesSectionDisclosedState": true,
+      "SidebarPlacesSectionDisclosedState": true,
+      "SidebarWidth2": 247.0,
+      "SmartSharedSearchViewSettings": {
+        "WindowState": {
+          "ContainerShowSidebar": true,
+          "ShowSidebar": true,
+          "ShowStatusBar": true,
+          "ShowTabView": false,
+          "ShowToolbar": true,
+          "WindowBounds": "{{878, 610}, {920, 492}}"
+        }
+      },
+      "StandardViewSettings": {
+        "ExtendedListViewSettingsV2": {
+          "calculateAllSizes": false,
+          "columns": [
+            {
+              "ascending": true,
+              "identifier": "name",
+              "visible": true,
+              "width": 300
+            },
+            {
+              "ascending": false,
+              "identifier": "dateModified",
+              "visible": true,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "dateCreated",
+              "visible": false,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "size",
+              "visible": true,
+              "width": 97
+            },
+            {
+              "ascending": true,
+              "identifier": "kind",
+              "visible": true,
+              "width": 115
+            },
+            {
+              "ascending": true,
+              "identifier": "label",
+              "visible": false,
+              "width": 100
+            },
+            {
+              "ascending": true,
+              "identifier": "version",
+              "visible": false,
+              "width": 75
+            },
+            {
+              "ascending": true,
+              "identifier": "comments",
+              "visible": false,
+              "width": 300
+            },
+            {
+              "ascending": false,
+              "identifier": "dateLastOpened",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "shareOwner",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "shareLastEditor",
+              "visible": false,
+              "width": 200
+            }
+          ],
+          "iconSize": 16,
+          "showIconPreview": true,
+          "sortColumn": "name",
+          "textSize": 13,
+          "useRelativeDates": true,
+          "viewOptionsVersion": 1
+        },
+        "GalleryViewSettings": {
+          "arrangeBy": "name",
+          "iconSize": 48.0,
+          "showIconPreview": true,
+          "viewOptionsVersion": 1
+        },
+        "IconViewSettings": {
+          "arrangeBy": "none",
+          "backgroundColorBlue": 1.0,
+          "backgroundColorGreen": 1.0,
+          "backgroundColorRed": 1.0,
+          "backgroundType": 0,
+          "gridOffsetX": 0.0,
+          "gridOffsetY": 0.0,
+          "gridSpacing": 54.0,
+          "iconSize": 64.0,
+          "labelOnBottom": true,
+          "showIconPreview": true,
+          "showItemInfo": false,
+          "textSize": 12.0,
+          "viewOptionsVersion": 1
+        },
+        "ListViewSettings": {
+          "calculateAllSizes": false,
+          "columns": {
+            "comments": {
+              "ascending": true,
+              "index": 7,
+              "visible": false,
+              "width": 300
+            },
+            "dateCreated": {
+              "ascending": false,
+              "index": 2,
+              "visible": false,
+              "width": 181
+            },
+            "dateLastOpened": {
+              "ascending": false,
+              "index": 8,
+              "visible": false,
+              "width": 200
+            },
+            "dateModified": {
+              "ascending": false,
+              "index": 1,
+              "visible": true,
+              "width": 181
+            },
+            "kind": {
+              "ascending": true,
+              "index": 4,
+              "visible": true,
+              "width": 115
+            },
+            "label": {
+              "ascending": true,
+              "index": 5,
+              "visible": false,
+              "width": 100
+            },
+            "name": {
+              "ascending": true,
+              "index": 0,
+              "visible": true,
+              "width": 300
+            },
+            "size": {
+              "ascending": false,
+              "index": 3,
+              "visible": true,
+              "width": 97
+            },
+            "version": {
+              "ascending": true,
+              "index": 6,
+              "visible": false,
+              "width": 75
+            }
+          },
+          "iconSize": 16,
+          "showIconPreview": true,
+          "sortColumn": "name",
+          "textSize": 13,
+          "useRelativeDates": true,
+          "viewOptionsVersion": 1
+        },
+        "SettingsType": "StandardViewSettings"
+      },
+      "TrashViewSettings": {
+        "CustomViewStyleVersion": 1,
+        "ExtendedListViewSettingsV2": {
+          "calculateAllSizes": false,
+          "columns": [
+            {
+              "ascending": true,
+              "identifier": "name",
+              "visible": true,
+              "width": 300
+            },
+            {
+              "ascending": false,
+              "identifier": "ubiquity",
+              "visible": false,
+              "width": 35
+            },
+            {
+              "ascending": false,
+              "identifier": "dateModified",
+              "visible": true,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "dateCreated",
+              "visible": false,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "size",
+              "visible": true,
+              "width": 97
+            },
+            {
+              "ascending": true,
+              "identifier": "kind",
+              "visible": true,
+              "width": 115
+            },
+            {
+              "ascending": true,
+              "identifier": "label",
+              "visible": false,
+              "width": 100
+            },
+            {
+              "ascending": true,
+              "identifier": "version",
+              "visible": false,
+              "width": 75
+            },
+            {
+              "ascending": true,
+              "identifier": "comments",
+              "visible": false,
+              "width": 300
+            },
+            {
+              "ascending": false,
+              "identifier": "dateLastOpened",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "shareOwner",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "shareLastEditor",
+              "visible": false,
+              "width": 200
+            },
+            {
+              "ascending": false,
+              "identifier": "dateAdded",
+              "visible": false,
+              "width": 181
+            },
+            {
+              "ascending": false,
+              "identifier": "invitationStatus",
+              "visible": false,
+              "width": 210
+            }
+          ],
+          "iconSize": 16.0,
+          "scrollPositionX": -167.5,
+          "scrollPositionY": 0.0,
+          "showIconPreview": true,
+          "sortColumn": "name",
+          "textSize": 13.0,
+          "useRelativeDates": true,
+          "viewOptionsVersion": 1
+        },
+        "ListViewSettings": {
+          "calculateAllSizes": false,
+          "columns": {
+            "comments": {
+              "ascending": true,
+              "index": 7,
+              "visible": false,
+              "width": 300
+            },
+            "dateCreated": {
+              "ascending": false,
+              "index": 2,
+              "visible": false,
+              "width": 181
+            },
+            "dateLastOpened": {
+              "ascending": false,
+              "index": 8,
+              "visible": false,
+              "width": 200
+            },
+            "dateModified": {
+              "ascending": false,
+              "index": 1,
+              "visible": true,
+              "width": 181
+            },
+            "kind": {
+              "ascending": true,
+              "index": 4,
+              "visible": true,
+              "width": 115
+            },
+            "label": {
+              "ascending": true,
+              "index": 5,
+              "visible": false,
+              "width": 100
+            },
+            "name": {
+              "ascending": true,
+              "index": 0,
+              "visible": true,
+              "width": 300
+            },
+            "size": {
+              "ascending": false,
+              "index": 3,
+              "visible": true,
+              "width": 97
+            },
+            "version": {
+              "ascending": true,
+              "index": 6,
+              "visible": false,
+              "width": 75
+            }
+          },
+          "iconSize": 16.0,
+          "scrollPositionX": -167.5,
+          "scrollPositionY": 0.0,
+          "showIconPreview": true,
+          "sortColumn": "name",
+          "textSize": 13.0,
+          "useRelativeDates": true,
+          "viewOptionsVersion": 1
+        }
+      },
+      "WarnOnEmptyTrash": true,
+      "_FXSortFoldersFirst": true,
+      "_FXSortFoldersFirstOnDesktop": true
+    },
+    "com.apple.menuextra.clock": {
+      "ShowAMPM": true,
+      "ShowDate": 0,
+      "ShowDayOfWeek": true,
+      "ShowSeconds": true
+    },
+    "com.apple.screencapture": {
+      "showsClicks": true,
+      "showsCursor": true
+    },
+    "com.apple.symbolichotkeys": {
+      "AppleSymbolicHotKeys": {
+        "15": {
+          "enabled": false
+        },
+        "16": {
+          "enabled": false
+        },
+        "164": {
+          "enabled": false,
+          "value": {
+            "parameters": [
+              65535,
+              65535,
+              0
+            ],
+            "type": "standard"
+          }
+        },
+        "17": {
+          "enabled": false
+        },
+        "18": {
+          "enabled": false
+        },
+        "19": {
+          "enabled": false
+        },
+        "20": {
+          "enabled": false
+        },
+        "21": {
+          "enabled": false
+        },
+        "22": {
+          "enabled": false
+        },
+        "23": {
+          "enabled": false
+        },
+        "24": {
+          "enabled": false
+        },
+        "25": {
+          "enabled": false
+        },
+        "26": {
+          "enabled": false
+        },
+        "60": {
+          "enabled": false,
+          "value": {
+            "parameters": [
+              32,
+              49,
+              262144
+            ],
+            "type": "standard"
+          }
+        },
+        "61": {
+          "enabled": false,
+          "value": {
+            "parameters": [
+              32,
+              49,
+              786432
+            ],
+            "type": "standard"
+          }
+        },
+        "64": {
+          "enabled": 0
+        },
+        "79": {
+          "enabled": true
+        },
+        "80": {
+          "enabled": true
+        },
+        "81": {
+          "enabled": true
+        },
+        "82": {
+          "enabled": true
+        }
+      }
+    },
+    "com.apple.universalaccess": {
+      "FontSizeCategory": {
+        "com.apple.Magnifier": "UseGlobal",
+        "com.apple.MobileSMS": "UseGlobal",
+        "com.apple.Notes": "UseGlobal",
+        "com.apple.accessibility.AccessibilityReader": "UseGlobal",
+        "com.apple.finder": "UseGlobal",
+        "com.apple.iBooksX": "UseGlobal",
+        "com.apple.iCal": "UseGlobal",
+        "com.apple.journal": "UseGlobal",
+        "com.apple.mail": "UseGlobal",
+        "com.apple.news": "UseGlobal",
+        "com.apple.reminders": "UseGlobal",
+        "com.apple.stocks": "UseGlobal",
+        "com.apple.weather": "UseGlobal",
+        "global": "DEFAULT",
+        "version": "3.0"
+      },
+      "closeViewHotkeysEnabled": false,
+      "closeViewZoomFactor": 1.0,
+      "cursorFill": {
+        "alpha": 1.0,
+        "blue": 1.0,
+        "green": 0.37247204780578613,
+        "red": 0.6816665530204773
+      },
+      "cursorIsCustomized": true,
+      "cursorOutline": {
+        "alpha": 1.0,
+        "blue": 1.0,
+        "green": 1.0,
+        "red": 0.9999999403953552
+      },
+      "customFonts": false,
+      "grayscale": false,
+      "mouseDriver": false,
+      "mouseDriverCursorSize": 4.0,
+      "slowKey": false,
+      "slowKeyDelay": 250,
+      "stickyKey": false,
+      "useStickyKeysShortcutKeys": false
+    }
+  }
+}

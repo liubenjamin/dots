@@ -24,6 +24,8 @@
 !.config/kitty/kitty.conf
 !.config/linearmouse/
 !.config/linearmouse/linearmouse.json
+!.config/macos/
+!.config/macos/preferences.json
 !.config/nvim
 !.config/ranger/
 !.config/ranger/rc.conf
@@ -52,6 +54,7 @@
 !bin/
 !bin/install-dots.sh
 !bin/pointer-size.swift
+!bin/apply-macos-settings
 
 !userChrome.css
 !README.md

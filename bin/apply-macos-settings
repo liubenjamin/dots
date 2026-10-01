@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+"""Apply the editable macOS preferences in ~/.config/macos/preferences.json."""
+import argparse
+import json
+import os
+from pathlib import Path
+import plistlib
+import re
+import subprocess
+import sys
+import tempfile
+
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("Duplicate JSON key: " + key)
+        result[key] = value
+    return result
+
+
+def load_settings(path):
+    data = json.loads(path.read_text(), object_pairs_hook=unique_object)
+    if not isinstance(data, dict) or set(data) - {"user", "currentHost"}:
+        raise ValueError("Config must contain only user and currentHost objects")
+    json.dumps(data, allow_nan=False)
+    settings = []
+    for scope, domains in sorted(data.items()):
+        if not isinstance(domains, dict):
+            raise ValueError(scope + " must be an object of preference domains")
+        for domain, values in sorted(domains.items()):
+            if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", domain):
+                raise ValueError("Invalid preference domain: " + domain)
+            if not isinstance(values, dict):
+                raise ValueError(domain + " must be an object of preference keys")
+            for key, value in sorted(values.items()):
+                if not key:
+                    raise ValueError(domain + " contains an empty preference key")
+                # Encode everything before backups or writes; null is not a plist value.
+                plistlib.dumps({key: value})  # Validate key text as well as the value.
+                xml = plistlib.dumps(value).decode("utf-8")
+                settings.append((scope, domain, key, xml))
+    return settings
+
+
+def defaults(arguments, context):
+    try:
+        result = subprocess.run(["/usr/bin/defaults"] + arguments,
+                                capture_output=True, timeout=30)
+    except subprocess.TimeoutExpired:
+        raise RuntimeError(context + " timed out") from None
+    if result.returncode:
+        detail = result.stderr.decode("utf-8", errors="replace").strip()
+        raise RuntimeError(context + " failed: " + detail)
+    return result.stdout
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--config", type=Path,
+                        default=Path.home() / ".config/macos/preferences.json")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--dry-run", action="store_true", help="preview keys (the default)")
+    mode.add_argument("--apply", action="store_true", help="back up and write live preferences")
+    mode.add_argument("--test-dir", type=Path, help="back up and replay into isolated plist files")
+    args = parser.parse_args()
+    if sys.platform != "darwin":
+        raise ValueError("This command requires macOS")
+    os.umask(0o077)
+    settings = load_settings(args.config.expanduser())
+    if not args.apply and args.test_dir is None:
+        for scope, domain, key, _ in settings:
+            print(scope + " / " + domain + " / " + key)
+        print("Dry run: %d settings; no changes made." % len(settings))
+        return
+    if not settings:
+        print("No settings configured; no changes made.")
+        return
+
+    test_dir = args.test_dir.expanduser().resolve() if args.test_dir is not None else None
+
+    def target(scope, domain):
+        if test_dir is not None:
+            return [], str(test_dir / (scope + "--" + domain))
+        return (["-currentHost"] if scope == "currentHost" else []), domain
+
+    backup_root = test_dir if test_dir is not None else Path.home() / "tmp/pi"
+    backup_root.mkdir(parents=True, exist_ok=True)
+    backup_dir = Path(tempfile.mkdtemp(prefix="macos-settings-backup.", dir=backup_root))
+    print("Backups: " + str(backup_dir), flush=True)
+    # Complete every backup before the first write. Native defaults exports an
+    # absent domain as an empty dictionary; other export failures remain fatal.
+    for scope, domain in sorted({(s, d) for s, d, _, _ in settings}):
+        flags, destination = target(scope, domain)
+        backup = defaults(flags + ["export", destination, "-"], "Backup " + scope + " / " + domain)
+        if not isinstance(plistlib.loads(backup), dict):
+            raise ValueError("Backup is not a preference dictionary: " + domain)
+        (backup_dir / (scope + "--" + domain + ".plist")).write_bytes(backup)
+    for scope, domain, key, xml in settings:
+        flags, destination = target(scope, domain)
+        context = "Write " + scope + " / " + domain + " / " + key
+        try:
+            defaults(flags + ["write", destination, key, xml], context)
+        except (OSError, RuntimeError) as error:
+            raise RuntimeError(str(error) + "\nEarlier writes may have succeeded; see " + str(backup_dir)) from None
+    if test_dir is not None:
+        print("Stored %d settings in isolated plist files only." % len(settings))
+    else:
+        print("Stored %d settings. Log out and back in to refresh cached preferences." % len(settings))
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (OSError, ValueError, TypeError, OverflowError, RuntimeError) as error:
+        print("Error: " + str(error), file=sys.stderr)
+        sys.exit(1)
